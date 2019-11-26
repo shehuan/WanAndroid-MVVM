@@ -1,0 +1,22 @@
+<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shehuan.wanandroid.ui.home.HomeFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articleRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+        <include layout="@layout/floating_button_layout"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</com.shehuan.statusview.StatusView>

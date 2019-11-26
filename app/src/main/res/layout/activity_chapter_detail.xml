@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.chapter.chapterDetail.ChapterDetailActivity">
+
+    <include layout="@layout/toolbar_layout" />
+
+    <FrameLayout
+        android:id="@+id/contentFl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chapterDetailRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cFFFFFF"
+                android:overScrollMode="never" />
+
+            <include layout="@layout/floating_button_layout" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/queryChapterRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cFFFFFF"
+            android:overScrollMode="never"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

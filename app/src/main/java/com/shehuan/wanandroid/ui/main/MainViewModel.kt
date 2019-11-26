@@ -1,0 +1,25 @@
+package com.shehuan.wanandroid.ui.main
+
+import androidx.lifecycle.MutableLiveData
+import com.shehuan.wanandroid.App
+import com.shehuan.wanandroid.R
+import com.shehuan.wanandroid.base.BaseViewModel
+import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.sp.SpUtil
+
+class MainViewModel(private  val repository: MainRepository) : BaseViewModel() {
+    var userName = MutableLiveData<String>()
+
+    fun logout(){
+        launch ({
+            repository.logout()
+            SpUtil.removeCookies()
+            SpUtil.removeUsername()
+            ToastUtil.show(App.getApp(), R.string.logout_tip)
+        }, {
+            ToastUtil.show(App.getApp(), it.message)
+        })
+    }
+
+    fun getUserName() = SpUtil.getUsername()
+}

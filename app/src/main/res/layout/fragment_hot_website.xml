@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hotWebsiteHomeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cFFFFFF"
+    tools:context=".ui.website.HotWebsiteFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/websiteFL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="20dp"
+            app:flexWrap="wrap" />
+    </ScrollView>
+
+</com.shehuan.statusview.StatusView>

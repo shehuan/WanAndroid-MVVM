@@ -1,0 +1,24 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.shehuan.wanandroid.ui.tree.TreeViewModel" />
+    </data>
+
+    <com.shehuan.statusview.StatusView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/treeRootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.shehuan.wanandroid.ui.tree.TreeFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/treeRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+    </com.shehuan.statusview.StatusView>
+</layout>

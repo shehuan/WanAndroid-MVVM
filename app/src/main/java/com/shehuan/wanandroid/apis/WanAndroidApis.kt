@@ -104,19 +104,19 @@ interface WanAndroidApis {
      * 微信公众号列表
      */
     @GET("wxarticle/chapters/json")
-    fun chapter(): Observable<BaseResponse<List<ChapterBean>>>
+    fun chapter(): Call<BaseResponse<List<ChapterBean>>>
 
     /**
      * 微信公众号文章列表
      */
     @GET("wxarticle/list/{chapterId}/{pageNum}/json")
-    fun chapterArticleList(@Path("chapterId") chapterId: Int, @Path("pageNum") pageNum: Int): Observable<BaseResponse<ChapterArticleBean>>
+    fun chapterArticleList(@Path("chapterId") chapterId: Int, @Path("pageNum") pageNum: Int): Call<BaseResponse<ChapterArticleBean>>
 
     /**
      * 微信公众号文章搜索
      */
     @GET("wxarticle/list/{chapterId}/{pageNum}/json")
-    fun queryChapterArticle(@Path("chapterId") chapterId: Int, @Path("pageNum") pageNum: Int, @Query("k") k: String): Observable<BaseResponse<ChapterArticleBean>>
+    fun queryChapterArticle(@Path("chapterId") chapterId: Int, @Path("pageNum") pageNum: Int, @Query("k") k: String): Call<BaseResponse<ChapterArticleBean>>
 
     /**
      * 收藏文章列表

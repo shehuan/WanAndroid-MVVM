@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chapterRootLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cFFFFFF"
-    tools:context=".ui.chapter.ChapterFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chapterRv"
+    <com.shehuan.statusview.StatusView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/chapterRootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cFFFFFF"
-        android:overScrollMode="never" />
+        tools:context=".ui.chapter.ChapterFragment">
 
-</com.shehuan.statusview.StatusView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chapterRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cFFFFFF"
+            android:overScrollMode="never" />
+
+    </com.shehuan.statusview.StatusView>
+</layout>

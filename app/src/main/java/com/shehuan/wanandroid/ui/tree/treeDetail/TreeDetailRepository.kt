@@ -12,10 +12,10 @@ class TreeDetailRepository : BaseRepository {
     }
 
     suspend fun collectArticle(id:Int) =withContext(Dispatchers.IO) {
-        RetrofitManager.create(WanAndroidApis::class.java).collectArticle(id)
+        RetrofitManager.create(WanAndroidApis::class.java).collectArticle(id).await()
     }
 
     suspend fun uncollectArticle(id:Int)=withContext(Dispatchers.IO) {
-        RetrofitManager.create(WanAndroidApis::class.java).uncollectArticle(id)
+        RetrofitManager.create(WanAndroidApis::class.java).uncollectArticle(id).await()
     }
 }

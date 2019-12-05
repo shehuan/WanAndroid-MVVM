@@ -33,6 +33,10 @@ class HotWebsiteFragment :
                 }
             }
         })
+
+        viewModel.friendListFail.observe(this, Observer {
+            statusView.showErrorView()
+        })
     }
 
     override fun initView() {

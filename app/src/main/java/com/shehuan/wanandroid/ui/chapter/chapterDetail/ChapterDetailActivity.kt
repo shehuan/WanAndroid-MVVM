@@ -5,22 +5,23 @@ import androidx.core.view.MenuItemCompat
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ChapterDetailListAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseMvpActivity
-import com.shehuan.wanandroid.base.net.exception.ResponseException
-import com.shehuan.wanandroid.bean.chapter.ChapterArticleBean
+import com.shehuan.wanandroid.base.activity.BaseActivity2
 import com.shehuan.wanandroid.bean.chapter.DatasItem
+import com.shehuan.wanandroid.databinding.ActivityChapterDetailBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_chapter_detail.*
 import kotlinx.android.synthetic.main.floating_button_layout.*
 
-class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), ChapterDetailContract.View {
+class ChapterDetailActivity :
+    BaseActivity2<ActivityChapterDetailBinding, ChapterDetailViewModel, ChapterDetailRepository>() {
     private var pageNum: Int = 0
     private var chapterId: Int = 0
     private lateinit var title: String
@@ -48,13 +49,9 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
         }
     }
 
-    override fun initPresenter(): ChapterDetailPresenterImpl {
-        return ChapterDetailPresenterImpl(this)
-    }
-
     override fun initLoad() {
         statusView.showLoadingView()
-        presenter.getChapterArticleList(chapterId, pageNum)
+        viewModel.getChapterArticleList(chapterId, pageNum)
     }
 
     override fun initLayoutResID(): Int {
@@ -66,6 +63,71 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
             title = it.getStringExtra("title")
             chapterId = it.getIntExtra("chapterId", 0)
         }
+
+        viewModel.collectSuccess.observe(this, Observer {
+            collectDataItem.collect = true
+            chapterDetailListAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.collect_success)
+        })
+
+        viewModel.uncollectSuccess.observe(this, Observer {
+            collectDataItem.collect = false
+            chapterDetailListAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.uncollect_success)
+        })
+
+        viewModel.articleBean.observe(this, Observer {
+            if (pageNum == 0) {
+                statusView.showContentView()
+                chapterDetailListAdapter.setNewData(it.datas)
+            } else {
+                chapterDetailListAdapter.setLoadMoreData(it.datas)
+            }
+            pageNum++
+            if (pageNum == it.pageCount) {
+                chapterDetailListAdapter.loadEnd()
+            }
+        })
+
+        viewModel.articleBeanFail.observe(this, Observer {
+            if (pageNum == 0) {
+                statusView.showErrorView()
+            } else {
+                chapterDetailListAdapter.loadFailed()
+            }
+        })
+
+        viewModel.queryArticleBean.observe(this, Observer {
+            if (queryChapterRv.visibility == View.GONE) {
+                queryChapterRv.visibility = View.VISIBLE
+            }
+
+            if (isInitQuery) {
+                isInitQuery = false
+                queryChapterRv.scrollToPosition(0)
+                queryResultAdapter.reset()
+            }
+
+            if (queryPageNum == 0) {
+                if (it.datas.isEmpty()) {
+                    isEmpty = true
+                    statusView.showEmptyView()
+                } else if (isEmpty) {
+                    statusView.showContentView()
+                }
+                queryResultAdapter.setNewData(it.datas)
+            } else {
+                queryResultAdapter.setLoadMoreData(it.datas)
+            }
+            queryPageNum++
+            if (queryPageNum == it.pageCount) {
+                queryResultAdapter.loadEnd()
+            }
+        })
+
+        viewModel.queryArticleBeanFail.observe(this, Observer {
+            queryResultAdapter.loadEnd()
+        })
     }
 
     override fun initView() {
@@ -100,13 +162,13 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
                 collectDataItem = data
                 collectPosition = position
                 if (!data.collect) {
-                    presenter.collect(data.id)
+                    viewModel.collectArticle(data.id)
                 } else {
-                    presenter.uncollect(data.id)
+                    viewModel.uncollectArticle(data.id)
                 }
             }
             setOnLoadMoreListener {
-                presenter.getChapterArticleList(chapterId, pageNum)
+                viewModel.getChapterArticleList(chapterId, pageNum)
             }
         }
         val linearLayoutManager = LinearLayoutManager(mContext)
@@ -145,13 +207,13 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
                 collectDataItem = data
                 collectPosition = position
                 if (!data.collect) {
-                    presenter.collect(data.id)
+                    viewModel.collectArticle(data.id)
                 } else {
-                    presenter.uncollect(data.id)
+                    viewModel.uncollectArticle(data.id)
                 }
             }
             setOnLoadMoreListener {
-                presenter.queryChapterArticle(chapterId, pageNum, keyWord)
+                viewModel.queryChapterArticle(chapterId, pageNum, keyWord)
             }
         }
         val linearLayoutManager = LinearLayoutManager(mContext)
@@ -178,7 +240,7 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
                     if (!keyWord.isEmpty()) {
                         queryPageNum = 0
                         isInitQuery = true
-                        presenter.queryChapterArticle(chapterId, queryPageNum, keyWord)
+                        viewModel.queryChapterArticle(chapterId, queryPageNum, keyWord)
                     }
                     return true
                 }
@@ -198,79 +260,5 @@ class ChapterDetailActivity : BaseMvpActivity<ChapterDetailPresenterImpl>(), Cha
         }
 
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onChapterArticleListSuccess(data: ChapterArticleBean) {
-        if (pageNum == 0) {
-            statusView.showContentView()
-            chapterDetailListAdapter.setNewData(data.datas)
-        } else {
-            chapterDetailListAdapter.setLoadMoreData(data.datas)
-        }
-        pageNum++
-        if (pageNum == data.pageCount) {
-            chapterDetailListAdapter.loadEnd()
-        }
-    }
-
-    override fun onChapterArticleListError(e: ResponseException) {
-        if (pageNum == 0) {
-            statusView.showErrorView()
-        } else {
-            chapterDetailListAdapter.loadFailed()
-        }
-    }
-
-    override fun onQueryChapterArticleListSuccess(data: ChapterArticleBean) {
-        if (queryChapterRv.visibility == View.GONE) {
-            queryChapterRv.visibility = View.VISIBLE
-        }
-
-        if (isInitQuery) {
-            isInitQuery = false
-            queryChapterRv.scrollToPosition(0)
-            queryResultAdapter.reset()
-        }
-
-        if (queryPageNum == 0) {
-            if (data.datas.isEmpty()) {
-                isEmpty = true
-                statusView.showEmptyView()
-                return
-            } else if (isEmpty) {
-                statusView.showContentView()
-            }
-            queryResultAdapter.setNewData(data.datas)
-        } else {
-            queryResultAdapter.setLoadMoreData(data.datas)
-        }
-        queryPageNum++
-        if (queryPageNum == data.pageCount) {
-            queryResultAdapter.loadEnd()
-        }
-    }
-
-    override fun onQueryChapterArticleListError(e: ResponseException) {
-        queryResultAdapter.loadEnd()
-    }
-
-    override fun onCollectSuccess(data: String) {
-        collectDataItem.collect = true
-        chapterDetailListAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.collect_success)
-    }
-
-    override fun onCollectError(e: ResponseException) {
-
-    }
-
-    override fun onUncollectSuccess(data: String) {
-        collectDataItem.collect = false
-        chapterDetailListAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.uncollect_success)
-    }
-
-    override fun onUncollectError(e: ResponseException) {
-
     }
 }

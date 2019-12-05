@@ -1,22 +1,18 @@
 package com.shehuan.wanandroid.ui.website
 
-import android.annotation.SuppressLint
+import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
-import com.shehuan.wanandroid.base.fragment.BaseMvpFragment
-import com.shehuan.wanandroid.base.net.exception.ResponseException
-import com.shehuan.wanandroid.bean.FriendBean
+import com.shehuan.wanandroid.base.fragment.BaseFragment2
+import com.shehuan.wanandroid.databinding.FragmentHotWebsiteBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.addCommonView
 import kotlinx.android.synthetic.main.fragment_hot_website.*
 
 
-class HotWebsiteFragment : BaseMvpFragment<HotWebsitePresenterImpl>(), HotWebsiteContract.View {
+class HotWebsiteFragment :
+    BaseFragment2<FragmentHotWebsiteBinding, HotWebsiteViewModel, HotWebsiteRepository>() {
     companion object {
         fun newInstance() = HotWebsiteFragment()
-    }
-
-    override fun initPresenter(): HotWebsitePresenterImpl {
-        return HotWebsitePresenterImpl(this)
     }
 
     override fun initLayoutResID(): Int {
@@ -24,7 +20,19 @@ class HotWebsiteFragment : BaseMvpFragment<HotWebsitePresenterImpl>(), HotWebsit
     }
 
     override fun initData() {
-
+        viewModel.friendList.observe(this, Observer {
+            statusView.showContentView()
+            for (website in it) {
+                websiteFL.addCommonView(
+                    mContext,
+                    website.name,
+                    R.color.c2C2C2C,
+                    R.drawable.website_selecter
+                ) {
+                    ArticleActivity.start(mContext, website.name, website.link)
+                }
+            }
+        })
     }
 
     override fun initView() {
@@ -35,20 +43,6 @@ class HotWebsiteFragment : BaseMvpFragment<HotWebsitePresenterImpl>(), HotWebsit
 
     override fun initLoad() {
         statusView.showLoadingView()
-        presenter.getFriendData()
-    }
-
-    @SuppressLint("ResourceType")
-    override fun onFriedSuccess(data: List<FriendBean>) {
-        statusView.showContentView()
-        for (website in data) {
-            websiteFL.addCommonView(mContext, website.name, R.color.c2C2C2C, R.drawable.website_selecter) {
-//                ArticleActivity.start(mContext, website.name, website.link)
-            }
-        }
-    }
-
-    override fun onFriendError(e: ResponseException) {
-        statusView.showErrorView()
+        viewModel.getFriendList()
     }
 }

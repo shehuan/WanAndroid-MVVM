@@ -42,7 +42,7 @@ interface WanAndroidApis {
      * 常用网站
      */
     @GET("friend/json")
-    fun friend(): Observable<BaseResponse<List<FriendBean>>>
+    fun friend(): Call<BaseResponse<List<FriendBean>>>
 
     /**
      * 首页文章列表
@@ -98,7 +98,7 @@ interface WanAndroidApis {
      * 导航
      */
     @GET("navi/json")
-    fun nav(): Observable<BaseResponse<List<NaviBean>>>
+    fun nav(): Call<BaseResponse<List<NaviBean>>>
 
     /**
      * 微信公众号列表

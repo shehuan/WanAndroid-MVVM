@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/hotWebsiteHomeLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cFFFFFF"
-    tools:context=".ui.website.HotWebsiteFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
+    <com.shehuan.statusview.StatusView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/hotWebsiteHomeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="match_parent"
+        android:background="@color/cFFFFFF"
+        tools:context=".ui.website.HotWebsiteFragment">
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/websiteFL"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="20dp"
-            app:flexWrap="wrap" />
-    </ScrollView>
+            android:scrollbars="none">
 
-</com.shehuan.statusview.StatusView>
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/websiteFL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="20dp"
+                app:flexWrap="wrap" />
+        </ScrollView>
+
+    </com.shehuan.statusview.StatusView>
+</layout>

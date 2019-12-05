@@ -38,7 +38,7 @@ class NavDetailFragment : BaseFragment() {
     override fun initView() {
         for (website in articles) {
             navDetailFL.addCommonView(mContext, website.title, R.color.c2C2C2C, R.drawable.website_selecter) {
-//                ArticleActivity.start(mContext, website.title, website.link)
+                ArticleActivity.start(mContext, website.title, website.link)
             }
         }
     }

@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/chapterNameTv"
+    <data>
+
+        <variable
+            name="data"
+            type="com.shehuan.wanandroid.bean.ChapterBean" />
+
+        <variable
+            name="color"
+            type="Integer" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="15dp"
-        android:textColor="@color/c2C2C2C"
-        android:textSize="18sp" />
+        android:layout_height="100dp">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/chapterNameTv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{color}"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@{data.name}"
+            android:textColor="@color/c2C2C2C"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</layout>

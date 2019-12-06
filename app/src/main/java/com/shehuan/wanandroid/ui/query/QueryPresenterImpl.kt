@@ -8,13 +8,14 @@ import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.base.net.observer.BaseObserver
 import com.shehuan.wanandroid.base.net.observer.LoadingObserver
 import com.shehuan.wanandroid.bean.HotKeyBean
+import com.shehuan.wanandroid.bean.article.ArticleBean
 import com.shehuan.wanandroid.bean.query.QueryBean
 
 class QueryPresenterImpl(view: QueryContract.View) : BasePresenter<QueryContract.View>(view), QueryContract.Presenter {
     override fun query(pageNum: Int, k: String, showLoading: Boolean) {
         RequestManager.execute(this, RetrofitManager.create(WanAndroidApis::class.java).query(pageNum, k),
-                object : LoadingObserver<QueryBean>(context, showLoading) {
-                    override fun onSuccess(data: QueryBean) {
+                object : LoadingObserver<ArticleBean>(context, showLoading) {
+                    override fun onSuccess(data: ArticleBean) {
                         view.onQuerySuccess(data)
                     }
 

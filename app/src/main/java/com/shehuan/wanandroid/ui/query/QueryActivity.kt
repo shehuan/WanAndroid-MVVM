@@ -14,8 +14,8 @@ import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.base.activity.BaseMvpActivity
 import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.HotKeyBean
-import com.shehuan.wanandroid.bean.query.DatasItem
-import com.shehuan.wanandroid.bean.query.QueryBean
+import com.shehuan.wanandroid.bean.article.DatasItem
+import com.shehuan.wanandroid.bean.article.ArticleBean
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_query.*
@@ -159,7 +159,7 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onQuerySuccess(data: QueryBean) {
+    override fun onQuerySuccess(data: ArticleBean) {
         if (queryResultRv.visibility == View.GONE) {
             queryResultRv.visibility = View.VISIBLE
         }

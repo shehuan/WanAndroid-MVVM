@@ -60,7 +60,7 @@ interface WanAndroidApis {
      * 搜索（支持多个关键词，用空格隔开）
      */
     @POST("article/query/{pageNum}/json")
-    fun query(@Path("pageNum") pageNum: Int, @Query("k") k: String): Observable<BaseResponse<QueryBean>>
+    fun query(@Path("pageNum") pageNum: Int, @Query("k") k: String): Observable<BaseResponse<ArticleBean>>
 
     /**
      * 体系结构
@@ -78,20 +78,20 @@ interface WanAndroidApis {
      * 最新项目
      */
     @GET("article/listproject/{pageNum}/json")
-    fun newProject(@Path("pageNum") pageNum: Int): Observable<BaseResponse<ProjectBean>>
+    fun newProject(@Path("pageNum") pageNum: Int): Call<BaseResponse<ProjectBean>>
 
     /**
      * 项目分类
      */
     @GET("project/tree/json")
-    fun projectCategory(): Observable<BaseResponse<List<ProjectCategoryBean>>>
+    fun projectCategory(): Call<BaseResponse<List<ProjectCategoryBean>>>
 
 
     /**
      * 项目分类详情列表
      */
     @GET("project/list/{pageNum}/json")
-    fun projectDetail(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Observable<BaseResponse<ProjectBean>>
+    fun projectDetail(@Path("pageNum") pageNum: Int, @Query("cid") cid: Int): Call<BaseResponse<ProjectBean>>
 
 
     /**

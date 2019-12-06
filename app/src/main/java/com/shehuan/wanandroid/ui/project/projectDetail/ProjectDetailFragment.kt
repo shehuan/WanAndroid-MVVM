@@ -1,14 +1,16 @@
 package com.shehuan.wanandroid.ui.project.projectDetail
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ProjectListAdapter
-import com.shehuan.wanandroid.base.fragment.BaseMvpFragment
+import com.shehuan.wanandroid.base.fragment.BaseFragment2
 import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.project.DatasItem
 import com.shehuan.wanandroid.bean.project.ProjectBean
+import com.shehuan.wanandroid.databinding.FragmentProjectDetailBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
 import com.shehuan.wanandroid.widget.DividerItemDecoration
@@ -17,7 +19,8 @@ import kotlinx.android.synthetic.main.fragment_project_detail.*
 
 private const val CID = "cid"
 
-class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), ProjectDetailContract.View {
+class ProjectDetailFragment :
+    BaseFragment2<FragmentProjectDetailBinding, ProjectDetailViewModel, ProjectDetailRepository>() {
     private var pageNum: Int = 0
     private lateinit var projectListAdapter: ProjectListAdapter
     private lateinit var collectDataItem: DatasItem
@@ -27,15 +30,11 @@ class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), Pro
 
     companion object {
         fun newInstance(cid: Int) =
-                ProjectDetailFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt("cid", cid)
-                    }
+            ProjectDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("cid", cid)
                 }
-    }
-
-    override fun initPresenter(): ProjectDetailPresenterImpl {
-        return ProjectDetailPresenterImpl(this)
+            }
     }
 
     override fun initLayoutResID(): Int {
@@ -46,6 +45,42 @@ class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), Pro
         arguments?.let {
             cid = it.getInt(CID)
         }
+
+        viewModel.collectSuccess.observe(this, Observer {
+            collectDataItem.collect = true
+            projectListAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.collect_success)
+        })
+
+        viewModel.uncollectSuccess.observe(this, Observer {
+            collectDataItem.collect = false
+            projectListAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.uncollect_success)
+        })
+
+        viewModel.newProjectList.observe(this, Observer {
+            setData(it)
+        })
+
+        viewModel.newProjectListFail.observe(this, Observer {
+            if (pageNum == 0) {
+                statusView.showErrorView()
+            } else {
+                projectListAdapter.loadFailed()
+            }
+        })
+
+        viewModel.projectList.observe(this, Observer {
+            setData(it)
+        })
+
+        viewModel.projectListFail.observe(this, Observer {
+            if (pageNum == 0) {
+                statusView.showErrorView()
+            } else {
+                projectListAdapter.loadFailed()
+            }
+        })
     }
 
     override fun initView() {
@@ -60,22 +95,22 @@ class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), Pro
             setLoadEndView(R.layout.rv_load_end_layout)
             setLoadFailedView(R.layout.rv_load_failed_layout)
             setOnItemClickListener { _, data, _ ->
-//                ArticleActivity.start(mContext, data.title, data.link)
+                ArticleActivity.start(mContext, data.title, data.link)
             }
             setOnItemChildClickListener(R.id.projectCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
                 if (!data.collect) {
-                    presenter.collect(data.id)
+                    viewModel.collectArticle(data.id)
                 } else {
-                    presenter.uncollect(data.id)
+                    viewModel.uncollectArticle(data.id)
                 }
             }
             setOnLoadMoreListener {
                 if (cid == -1) {
-                    presenter.getNewProjectList(pageNum)
+                    viewModel.getNewProjectList(pageNum)
                 } else {
-                    presenter.getProjectDetail(pageNum, cid)
+                    viewModel.getProjectList(pageNum, cid)
                 }
             }
         }
@@ -106,9 +141,9 @@ class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), Pro
     override fun initLoad() {
         statusView.showLoadingView()
         if (cid == -1) {
-            presenter.getNewProjectList(pageNum)
+            viewModel.getNewProjectList(pageNum)
         } else {
-            presenter.getProjectDetail(pageNum, cid)
+            viewModel.getProjectList(pageNum, cid)
         }
     }
 
@@ -124,49 +159,5 @@ class ProjectDetailFragment : BaseMvpFragment<ProjectDetailPresenterImpl>(), Pro
             projectListAdapter.loadEnd()
             return
         }
-    }
-
-    override fun onNewProjectListSuccess(data: ProjectBean) {
-        setData(data)
-    }
-
-    override fun onNewProjectListError(e: ResponseException) {
-        if (pageNum == 0) {
-            statusView.showErrorView()
-        } else {
-            projectListAdapter.loadFailed()
-        }
-    }
-
-    override fun onProjectDetailSuccess(data: ProjectBean) {
-        setData(data)
-    }
-
-    override fun onProjectDetailError(e: ResponseException) {
-        if (pageNum == 0) {
-            statusView.showErrorView()
-        } else {
-            projectListAdapter.loadFailed()
-        }
-    }
-
-    override fun onCollectSuccess(data: String) {
-        collectDataItem.collect = true
-        projectListAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.collect_success)
-    }
-
-    override fun onCollectError(e: ResponseException) {
-
-    }
-
-    override fun onUncollectSuccess(data: String) {
-        collectDataItem.collect = false
-        projectListAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.uncollect_success)
-    }
-
-    override fun onUncollectError(e: ResponseException) {
-
     }
 }

@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/cFFFFFF"
-    android:paddingBottom="15dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="15dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/chapterArticleTitleTv"
+    <data>
+
+        <variable
+            name="data"
+            type="com.shehuan.wanandroid.bean.chapter.DatasItem" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/c2C2C2C"
-        android:textSize="18sp" />
+        android:layout_height="100dp"
+        android:background="@color/cFFFFFF"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp">
+
+        <TextView
+            android:id="@+id/chapterArticleTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.title}"
+            android:textColor="@color/c2C2C2C"
+            android:textSize="18sp" />
 
 
-    <TextView
-        android:id="@+id/chapterArticleTimeTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text=""
-        android:textColor="@color/cBFBFBF"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/chapterArticleTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@{data.niceDate}"
+            android:textColor="@color/cBFBFBF"
+            android:textSize="12sp" />
 
-    <ImageView
-        android:id="@+id/chapterArticleCollectIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_like" />
+        <ImageView
+            android:id="@+id/chapterArticleCollectIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@{data.collect?@drawable/ic_like_fill:@drawable/ic_like}" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

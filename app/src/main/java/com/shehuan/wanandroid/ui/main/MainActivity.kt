@@ -5,16 +5,10 @@ import android.content.Intent
 import android.os.Handler
 import androidx.core.view.GravityCompat
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ViewPagerAdapter
-import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.base.activity.BaseActivity2
-import com.shehuan.wanandroid.base.activity.BaseMvpActivity
-import com.shehuan.wanandroid.base.fragment.BaseFragment
-import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.event.AccountEvent
 import com.shehuan.wanandroid.databinding.ActivityMainBinding
 import com.shehuan.wanandroid.ui.about.AboutActivity
@@ -67,14 +61,15 @@ class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepos
         }
 
         mainQueryIv.setOnClickListener {
-//            QueryActivity.start(this)
+            QueryActivity.start(this)
         }
 
-        usernameTv = navigationView.inflateHeaderView(R.layout.navigation_view_header_layout).findViewById(R.id.usernameTv)
+        usernameTv = navigationView.inflateHeaderView(R.layout.navigation_view_header_layout)
+            .findViewById(R.id.usernameTv)
         usernameTv.text = SpUtil.getUsername()
         usernameTv.setOnClickListener {
             if (getString(R.string.login) == usernameTv.text) {
-//                LoginActivity.start(this)
+                LoginActivity.start(this)
             }
         }
         navigationView.inflateMenu(R.menu.navigation_view_menu_layout)
@@ -111,9 +106,17 @@ class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepos
                 }
             })
             addTab(getString(R.string.home), R.drawable.ic_homepage, R.drawable.ic_homepage_fill)
-            addTab(getString(R.string.project), R.drawable.ic_createtask, R.drawable.ic_createtask_fill)
+            addTab(
+                getString(R.string.project),
+                R.drawable.ic_createtask,
+                R.drawable.ic_createtask_fill
+            )
             addTab(getString(R.string.tree), R.drawable.ic_manage, R.drawable.ic_manage_fill)
-            addTab(getString(R.string.nav), R.drawable.ic_coordinates, R.drawable.ic_coordinates_fill)
+            addTab(
+                getString(R.string.nav),
+                R.drawable.ic_coordinates,
+                R.drawable.ic_coordinates_fill
+            )
             addTab(getString(R.string.chapter), R.drawable.ic_select, R.drawable.ic_select_fill)
         }
     }
@@ -131,7 +134,7 @@ class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepos
     }
 
     private fun about() {
-//        AboutActivity.start(this)
+        AboutActivity.start(this)
     }
 
     private fun logout() {
@@ -142,7 +145,6 @@ class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepos
 
         LogoutDialog.show(supportFragmentManager, object : LogoutDialog.OnLogoutListener {
             override fun logout() {
-//                presenter.logout()
                 viewModel.logout()
             }
         })

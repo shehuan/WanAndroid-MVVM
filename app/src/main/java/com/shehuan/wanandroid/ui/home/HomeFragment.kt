@@ -2,16 +2,17 @@ package com.shehuan.wanandroid.ui.home
 
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ArticleListAdapter
-import com.shehuan.wanandroid.base.fragment.BaseMvpFragment
-import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.BannerBean
-import com.shehuan.wanandroid.bean.article.ArticleBean
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import android.view.LayoutInflater
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.shehuan.wanandroid.base.fragment.BaseFragment2
 import com.shehuan.wanandroid.bean.article.DatasItem
+import com.shehuan.wanandroid.databinding.FragmentHomeBinding
+import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
 import com.youth.banner.Banner
 import com.shehuan.wanandroid.utils.BannerImageLoader
@@ -19,7 +20,7 @@ import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.floating_button_layout.*
 
 
-class HomeFragment : BaseMvpFragment<HomePresenterImpl>(), HomeContract.View {
+class HomeFragment : BaseFragment2<FragmentHomeBinding, HomeViewModel, HomeRepository>() {
     private var pageNum: Int = 0
     private lateinit var articleListAdapter: ArticleListAdapter
     private lateinit var collectDataItem: DatasItem
@@ -32,14 +33,10 @@ class HomeFragment : BaseMvpFragment<HomePresenterImpl>(), HomeContract.View {
         fun newInstance() = HomeFragment()
     }
 
-    override fun initPresenter(): HomePresenterImpl {
-        return HomePresenterImpl(this)
-    }
-
     override fun initLoad() {
         statusView.showLoadingView()
-        presenter.getArticleList(pageNum)
-        presenter.getBannerData()
+        viewModel.getArticleList(pageNum)
+        viewModel.getBannerList()
     }
 
     override fun initLayoutResID(): Int {
@@ -47,19 +44,66 @@ class HomeFragment : BaseMvpFragment<HomePresenterImpl>(), HomeContract.View {
     }
 
     override fun initData() {
+        viewModel.collectSuccess.observe(this, Observer {
+            collectDataItem.collect = true
+            articleListAdapter.change(collectPosition + 1)
+            ToastUtil.show(mContext, R.string.collect_success)
+        })
 
+        viewModel.uncollectSuccess.observe(this, Observer {
+            collectDataItem.collect = false
+            articleListAdapter.change(collectPosition + 1)
+            ToastUtil.show(mContext, R.string.uncollect_success)
+        })
+
+        viewModel.bannerList.observe(this, Observer {
+            statusView.showContentView()
+            bannerBeans = it
+            val images = arrayListOf<String>()
+            val titles = arrayListOf<String>()
+
+            for (bannerBean in it) {
+                images.add(bannerBean.imagePath)
+                titles.add(bannerBean.title)
+            }
+            banner.run {
+                setImages(images)
+                setBannerTitles(titles)
+                start()
+            }
+        })
+
+        viewModel.articleList.observe(this, Observer {
+            if (pageNum == 0) {
+                articleListAdapter.setNewData(it.datas)
+            } else {
+                articleListAdapter.setLoadMoreData(it.datas)
+            }
+            pageNum++
+            if (pageNum == it.pageCount) {
+                articleListAdapter.loadEnd()
+            }
+        })
+
+        viewModel.articleListFail.observe(this, Observer {
+            articleListAdapter.loadFailed()
+        })
     }
 
     override fun initView() {
         // 初始化banner
-        banner = LayoutInflater.from(context).inflate(R.layout.home_banner_layout, homeRootLayout, false) as Banner
+        banner = LayoutInflater.from(context).inflate(
+            R.layout.home_banner_layout,
+            homeRootLayout,
+            false
+        ) as Banner
         banner.run {
             setImageLoader(BannerImageLoader())
             setDelayTime(3000)
             setIndicatorGravity(BannerConfig.RIGHT)
             setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
             setOnBannerListener {
-//                ArticleActivity.start(mContext, bannerBeans[it].title, bannerBeans[it].url)
+                ArticleActivity.start(mContext, bannerBeans[it].title, bannerBeans[it].url)
             }
         }
 
@@ -77,19 +121,19 @@ class HomeFragment : BaseMvpFragment<HomePresenterImpl>(), HomeContract.View {
             addHeaderView(banner)
 
             setOnItemClickListener { _, data, _ ->
-//                ArticleActivity.start(mContext, data.title, data.link)
+                ArticleActivity.start(mContext, data.title, data.link)
             }
             setOnItemChildClickListener(R.id.articleCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
                 if (!data.collect) {
-                    presenter.collect(data.id)
+                    viewModel.collectArticle(data.id)
                 } else {
-                    presenter.uncollect(data.id)
+                    viewModel.uncollectArticle(data.id)
                 }
             }
             setOnLoadMoreListener {
-                presenter.getArticleList(pageNum)
+                viewModel.getArticleList(pageNum)
             }
         }
 
@@ -115,63 +159,5 @@ class HomeFragment : BaseMvpFragment<HomePresenterImpl>(), HomeContract.View {
         initStatusView(homeRootLayout) {
             initLoad()
         }
-    }
-
-    override fun onBannerSuccess(data: List<BannerBean>) {
-        statusView.showContentView()
-        bannerBeans = data
-        val images = arrayListOf<String>()
-        val titles = arrayListOf<String>()
-
-        for (bannerBean in data) {
-            images.add(bannerBean.imagePath)
-            titles.add(bannerBean.title)
-        }
-        banner.run {
-            setImages(images)
-            setBannerTitles(titles)
-            start()
-        }
-    }
-
-    override fun onBannerError(e: ResponseException) {
-        statusView.showErrorView()
-    }
-
-    override fun onArticleListSuccess(data: ArticleBean) {
-        if (pageNum == 0) {
-            articleListAdapter.setNewData(data.datas)
-        } else {
-            articleListAdapter.setLoadMoreData(data.datas)
-        }
-        pageNum++
-        if (pageNum == data.pageCount) {
-            articleListAdapter.loadEnd()
-            return
-        }
-    }
-
-    override fun onArticleListError(e: ResponseException) {
-        articleListAdapter.loadFailed()
-    }
-
-    override fun onCollectSuccess(data: String) {
-        collectDataItem.collect = true
-        articleListAdapter.change(collectPosition + 1)
-        ToastUtil.show(mContext, R.string.collect_success)
-    }
-
-    override fun onCollectError(e: ResponseException) {
-
-    }
-
-    override fun onUncollectSuccess(data: String) {
-        collectDataItem.collect = false
-        articleListAdapter.change(collectPosition + 1)
-        ToastUtil.show(mContext, R.string.uncollect_success)
-    }
-
-    override fun onUncollectError(e: ResponseException) {
-
     }
 }

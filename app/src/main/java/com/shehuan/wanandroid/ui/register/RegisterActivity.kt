@@ -1,27 +1,21 @@
 package com.shehuan.wanandroid.ui.register
 
 import android.content.Intent
+import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseMvpActivity
-import com.shehuan.wanandroid.base.net.exception.ResponseException
-import com.shehuan.wanandroid.bean.RegisterBean
-import com.shehuan.wanandroid.bean.event.AccountEvent
-import com.shehuan.wanandroid.utils.sp.SpUtil
+import com.shehuan.wanandroid.base.activity.BaseActivity2
+import com.shehuan.wanandroid.databinding.ActivityRegisterBinding
 import com.shehuan.wanandroid.widget.WrapTextWatcher
 import kotlinx.android.synthetic.main.activity_register.*
-import org.greenrobot.eventbus.EventBus
 
-class RegisterActivity : BaseMvpActivity<RegisterPresenterImpl>(), RegisterContract.View {
+class RegisterActivity :
+    BaseActivity2<ActivityRegisterBinding, RegisterViewModel, RegisterRepository>() {
     companion object {
         fun start(context: BaseActivity) {
             val intent = Intent(context, RegisterActivity::class.java)
             context.startActivity(intent)
         }
-    }
-
-    override fun initPresenter(): RegisterPresenterImpl {
-        return RegisterPresenterImpl(this)
     }
 
     override fun initLoad() {
@@ -33,7 +27,9 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenterImpl>(), RegisterContr
     }
 
     override fun initData() {
-
+        viewModel.registerBean.observe(this, Observer {
+            finish()
+        })
     }
 
     override fun initView() {
@@ -67,19 +63,11 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenterImpl>(), RegisterContr
                 return@setOnClickListener
             }
 
-            presenter.register(registerUsernameET.text.toString(),
-                    registerPasswordET.text.toString(),
-                    registerRepasswordET.text.toString())
+            viewModel.register(
+                registerUsernameET.text.toString(),
+                registerPasswordET.text.toString(),
+                registerRepasswordET.text.toString()
+            )
         }
-    }
-
-    override fun onRegisterSuccess(data: RegisterBean) {
-        SpUtil.setUsername(data.username)
-        EventBus.getDefault().post(AccountEvent())
-        finish()
-    }
-
-    override fun onRegisterError(e: ResponseException) {
-
     }
 }

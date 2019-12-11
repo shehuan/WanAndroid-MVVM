@@ -1,21 +1,13 @@
 package com.shehuan.wanandroid.base.activity
 
 import android.os.Bundle
-import android.view.View
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.shehuan.statusview.StatusView
-import com.shehuan.statusview.StatusViewBuilder
-import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.BaseRepository
 import com.shehuan.wanandroid.base.BaseViewModel
-import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseActivity2<VDB : ViewDataBinding, BVM : BaseViewModel, BR : BaseRepository> :

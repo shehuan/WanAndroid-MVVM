@@ -2,28 +2,21 @@ package com.shehuan.wanandroid.ui.login
 
 import android.content.Intent
 import android.graphics.Paint
+import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseMvpActivity
-import com.shehuan.wanandroid.base.net.exception.ResponseException
-import com.shehuan.wanandroid.bean.LoginBean
-import com.shehuan.wanandroid.bean.event.AccountEvent
+import com.shehuan.wanandroid.base.activity.BaseActivity2
+import com.shehuan.wanandroid.databinding.ActivityLoginBinding
 import com.shehuan.wanandroid.ui.register.RegisterActivity
-import com.shehuan.wanandroid.utils.sp.SpUtil
 import com.shehuan.wanandroid.widget.WrapTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
-import org.greenrobot.eventbus.EventBus
 
-class LoginActivity : BaseMvpActivity<LoginPresenterImpl>(), LoginContract.View {
+class LoginActivity : BaseActivity2<ActivityLoginBinding, LoginViewModel, LoginRepository>() {
     companion object {
         fun start(context: BaseActivity) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
         }
-    }
-
-    override fun initPresenter(): LoginPresenterImpl {
-        return LoginPresenterImpl(this)
     }
 
     override fun initLoad() {
@@ -35,7 +28,9 @@ class LoginActivity : BaseMvpActivity<LoginPresenterImpl>(), LoginContract.View 
     }
 
     override fun initData() {
-
+        viewModel.loginBean.observe(this, Observer {
+            finish()
+        })
     }
 
     override fun initView() {
@@ -62,17 +57,7 @@ class LoginActivity : BaseMvpActivity<LoginPresenterImpl>(), LoginContract.View 
                 return@setOnClickListener
             }
 
-            presenter.login(loginUsernameET.text.toString(), loginPasswordET.text.toString())
+            viewModel.login(loginUsernameET.text.toString(), loginPasswordET.text.toString())
         }
-    }
-
-    override fun onLoginSuccess(data: LoginBean) {
-        SpUtil.setUsername(data.username)
-        EventBus.getDefault().post(AccountEvent())
-        finish()
-    }
-
-    override fun onLoginError(e: ResponseException) {
-
     }
 }

@@ -1,22 +1,25 @@
-<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/homeRootLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.shehuan.wanandroid.ui.home.HomeFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.shehuan.statusview.StatusView
+        android:id="@+id/homeRootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.shehuan.wanandroid.ui.home.HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/articleRv"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never" />
+            android:layout_height="match_parent">
 
-        <include layout="@layout/floating_button_layout"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/articleRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <include layout="@layout/floating_button_layout" />
 
-</com.shehuan.statusview.StatusView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </com.shehuan.statusview.StatusView>
+</layout>

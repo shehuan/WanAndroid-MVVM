@@ -6,16 +6,15 @@ import androidx.core.view.MenuItemCompat
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.QueryResultAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseMvpActivity
-import com.shehuan.wanandroid.base.net.exception.ResponseException
-import com.shehuan.wanandroid.bean.HotKeyBean
+import com.shehuan.wanandroid.base.activity.BaseActivity2
 import com.shehuan.wanandroid.bean.article.DatasItem
-import com.shehuan.wanandroid.bean.article.ArticleBean
+import com.shehuan.wanandroid.databinding.ActivityQueryBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_query.*
@@ -25,7 +24,7 @@ import com.shehuan.wanandroid.utils.addCommonView
 import com.shehuan.wanandroid.utils.childName
 
 
-class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View {
+class QueryActivity : BaseActivity2<ActivityQueryBinding, QueryViewModel, QueryRepository>() {
     private var pageNum: Int = 0
     private lateinit var keyWord: String
     private var isInitQuery: Boolean = false
@@ -44,13 +43,9 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
         }
     }
 
-    override fun initPresenter(): QueryPresenterImpl {
-        return QueryPresenterImpl(this)
-    }
-
     override fun initLoad() {
         statusView.showLoadingView()
-        presenter.getHotKey()
+        viewModel.getHotKey()
     }
 
     override fun initLayoutResID(): Int {
@@ -58,7 +53,63 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
     }
 
     override fun initData() {
+        viewModel.collectSuccess.observe(this, Observer {
+            collectDataItem.collect = true
+            queryResultAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.collect_success)
+        })
 
+        viewModel.uncollectSuccess.observe(this, Observer {
+            collectDataItem.collect = false
+            queryResultAdapter.change(collectPosition)
+            ToastUtil.show(mContext, R.string.uncollect_success)
+        })
+
+        viewModel.hotKeyList.observe(this, Observer {
+            statusView.showContentView()
+            for (hotKey in it) {
+                hotKeyFL.addCommonView(
+                    mContext,
+                    hotKey.name,
+                    R.color.c515151,
+                    R.drawable.hotkey_selector
+                ) {
+                    flexboxClick(hotKey.name)
+                }
+            }
+        })
+
+        viewModel.queryList.observe(this, Observer {
+            if (queryResultRv.visibility == View.GONE) {
+                queryResultRv.visibility = View.VISIBLE
+            }
+
+            if (isInitQuery) {
+                isInitQuery = false
+                queryResultRv.scrollToPosition(0)
+                queryResultAdapter.reset()
+            }
+
+            if (pageNum == 0) {
+                if (it.datas.isEmpty()) {
+                    isEmpty = true
+                    statusView.showEmptyView()
+                } else if (isEmpty) {
+                    statusView.showContentView()
+                }
+                queryResultAdapter.setNewData(it.datas)
+            } else {
+                queryResultAdapter.setLoadMoreData(it.datas)
+            }
+            pageNum++
+            if (pageNum == it.pageCount) {
+                queryResultAdapter.loadEnd()
+            }
+        })
+
+        viewModel.queryListFail.observe(this, Observer {
+            queryResultAdapter.loadFailed()
+        })
     }
 
     @SuppressLint("ResourceType")
@@ -70,7 +121,13 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
         if (queryHistoryBeans.isNotEmpty()) {
             queryHistoryRl.visibility = View.VISIBLE
             for (queryHistory in queryHistoryBeans) {
-                queryHistoryFL.addCommonView(mContext, queryHistory.name, R.color.c8A8A8A, R.drawable.query_history_selector, false) {
+                queryHistoryFL.addCommonView(
+                    mContext,
+                    queryHistory.name,
+                    R.color.c8A8A8A,
+                    R.drawable.query_history_selector,
+                    false
+                ) {
                     flexboxClick(queryHistory.name)
                 }
             }
@@ -96,15 +153,15 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
                 collectDataItem = data
                 collectPosition = position
                 if (!data.collect) {
-                    presenter.collect(data.id)
+                    viewModel.collectArticle(data.id)
                 } else {
-                    presenter.uncollect(data.id)
+                    viewModel.uncollectArticle(data.id)
                 }
             }
 
             setOnLoadMoreListener {
                 if (keyWord.isNotEmpty()) {
-                    presenter.query(pageNum, keyWord, false)
+                    viewModel.query(pageNum, keyWord)
                 }
             }
         }
@@ -138,7 +195,7 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
                     if (!keyWord.isEmpty()) {
                         isInitQuery = true
                         pageNum = 0
-                        presenter.query(pageNum, keyWord, true)
+                        viewModel.query(pageNum, keyWord)
                     }
                     return true
                 }
@@ -157,53 +214,6 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
             }
         }
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onQuerySuccess(data: ArticleBean) {
-        if (queryResultRv.visibility == View.GONE) {
-            queryResultRv.visibility = View.VISIBLE
-        }
-
-        if (isInitQuery) {
-            isInitQuery = false
-            queryResultRv.scrollToPosition(0)
-            queryResultAdapter.reset()
-        }
-
-        if (pageNum == 0) {
-            if (data.datas.isEmpty()) {
-                isEmpty = true
-                statusView.showEmptyView()
-                return
-            } else if (isEmpty) {
-                statusView.showContentView()
-            }
-            queryResultAdapter.setNewData(data.datas)
-        } else {
-            queryResultAdapter.setLoadMoreData(data.datas)
-        }
-        pageNum++
-        if (pageNum == data.pageCount) {
-            queryResultAdapter.loadEnd()
-        }
-    }
-
-    override fun onQueryError(e: ResponseException) {
-        queryResultAdapter.loadFailed()
-    }
-
-    @SuppressLint("ResourceType")
-    override fun onHotKeySuccess(data: List<HotKeyBean>) {
-        statusView.showContentView()
-        for (hotKey in data) {
-            hotKeyFL.addCommonView(mContext, hotKey.name, R.color.c515151, R.drawable.hotkey_selector) {
-                flexboxClick(hotKey.name)
-            }
-        }
-    }
-
-    override fun onHotKeyError(e: ResponseException) {
-        statusView.showErrorView()
     }
 
     /**
@@ -232,30 +242,15 @@ class QueryActivity : BaseMvpActivity<QueryPresenterImpl>(), QueryContract.View 
             }
         }
 
-        queryHistoryFL.addCommonView(mContext, name, R.color.c8A8A8A, R.drawable.query_history_selector) {
+        queryHistoryFL.addCommonView(
+            mContext,
+            name,
+            R.color.c8A8A8A,
+            R.drawable.query_history_selector
+        ) {
             flexboxClick(name)
         }
         QueryHistoryDbUtil.save(name)
         queryHistoryRl.visibility = View.VISIBLE
-    }
-
-    override fun onCollectSuccess(data: String) {
-        collectDataItem.collect = true
-        queryResultAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.collect_success)
-    }
-
-    override fun onCollectError(e: ResponseException) {
-
-    }
-
-    override fun onUncollectSuccess(data: String) {
-        collectDataItem.collect = false
-        queryResultAdapter.change(collectPosition)
-        ToastUtil.show(mContext, R.string.uncollect_success)
-    }
-
-    override fun onUncollectError(e: ResponseException) {
-
     }
 }

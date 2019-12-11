@@ -6,7 +6,6 @@ import com.shehuan.wanandroid.bean.article.ArticleBean
 import com.shehuan.wanandroid.bean.navi.NaviBean
 import com.shehuan.wanandroid.bean.project.ProjectBean
 import com.shehuan.wanandroid.bean.chapter.ChapterArticleBean
-import com.shehuan.wanandroid.bean.query.QueryBean
 import com.shehuan.wanandroid.bean.tree.TreeBean
 import com.shehuan.wanandroid.bean.treeDetail.TreeDetailBean
 import io.reactivex.Observable
@@ -18,13 +17,13 @@ interface WanAndroidApis {
      * 登录
      */
     @POST("user/login")
-    fun login(@QueryMap param: Map<String, String>): Observable<BaseResponse<LoginBean>>
+    fun login(@QueryMap param: Map<String, String>): Call<BaseResponse<LoginBean>>
 
     /**
      * 注册
      */
     @POST("user/register")
-    fun register(@QueryMap param: Map<String, String>): Observable<BaseResponse<RegisterBean>>
+    fun register(@QueryMap param: Map<String, String>): Call<BaseResponse<RegisterBean>>
 
     /**
      * 退出
@@ -36,7 +35,7 @@ interface WanAndroidApis {
      * 首页banner
      */
     @GET("banner/json")
-    fun banner(): Observable<BaseResponse<List<BannerBean>>>
+    fun banner(): Call<BaseResponse<List<BannerBean>>>
 
     /**
      * 常用网站
@@ -48,19 +47,19 @@ interface WanAndroidApis {
      * 首页文章列表
      */
     @GET("article/list/{pageNum}/json")
-    fun articleList(@Path("pageNum") pageNum: Int): Observable<BaseResponse<ArticleBean>>
+    fun articleList(@Path("pageNum") pageNum: Int): Call<BaseResponse<ArticleBean>>
 
     /**
      * 热词（目前搜索最多的关键词）
      */
     @GET("/hotkey/json")
-    fun hotKey(): Observable<BaseResponse<List<HotKeyBean>>>
+    fun hotKey(): Call<BaseResponse<List<HotKeyBean>>>
 
     /**
      * 搜索（支持多个关键词，用空格隔开）
      */
     @POST("article/query/{pageNum}/json")
-    fun query(@Path("pageNum") pageNum: Int, @Query("k") k: String): Observable<BaseResponse<ArticleBean>>
+    fun query(@Path("pageNum") pageNum: Int, @Query("k") k: String): Call<BaseResponse<ArticleBean>>
 
     /**
      * 体系结构
@@ -122,7 +121,7 @@ interface WanAndroidApis {
      * 收藏文章列表
      */
     @GET("lg/collect/list/{pageNum}/json")
-    fun collectArticleList(@Path("pageNum") pageNum: Int): Observable<BaseResponse<ArticleBean>>
+    fun collectArticleList(@Path("pageNum") pageNum: Int): Call<BaseResponse<ArticleBean>>
 
     /**
      * 收藏站内文章
@@ -140,5 +139,5 @@ interface WanAndroidApis {
      * 在收藏列表取消收藏
      */
     @POST("lg/uncollect/{id}/json")
-    fun cancelMyCollection(@Path("id") id: Int, @Query("originId") originId: Int): Observable<BaseResponse<String>>
+    fun cancelMyCollection(@Path("id") id: Int, @Query("originId") originId: Int): Call<BaseResponse<String>>
 }

@@ -39,10 +39,12 @@ abstract class BaseActivity : AppCompatActivity() {
     protected fun initStatusView(id: Int, errorRetry: (View) -> Unit) {
         statusView = StatusView.init(this, id).apply {
             setLoadingView(R.layout.dialog_loading_layout)
-            config(StatusViewBuilder.Builder()
+            config(
+                StatusViewBuilder.Builder()
                     .showEmptyRetry(false)
                     .setOnErrorRetryClickListener(errorRetry)
-                    .build())
+                    .build()
+            )
         }
     }
 

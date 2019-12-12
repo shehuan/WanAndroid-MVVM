@@ -3,7 +3,6 @@ package com.shehuan.wanandroid.ui.tree.treeDetail
 import androidx.lifecycle.MutableLiveData
 import com.shehuan.wanandroid.base.BaseViewModel
 import com.shehuan.wanandroid.base.net.exception.ApiException
-import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.treeDetail.TreeDetailBean
 
 class TreeDetailViewModel(private val repository: TreeDetailRepository) : BaseViewModel() {

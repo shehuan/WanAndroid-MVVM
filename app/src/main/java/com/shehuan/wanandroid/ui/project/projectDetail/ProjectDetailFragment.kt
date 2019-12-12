@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ProjectListAdapter
 import com.shehuan.wanandroid.base.fragment.BaseFragment2
-import com.shehuan.wanandroid.base.net.exception.ResponseException
 import com.shehuan.wanandroid.bean.project.DatasItem
 import com.shehuan.wanandroid.bean.project.ProjectBean
 import com.shehuan.wanandroid.databinding.FragmentProjectDetailBinding

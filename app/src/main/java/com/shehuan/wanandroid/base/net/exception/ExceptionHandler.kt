@@ -20,30 +20,35 @@ import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import retrofit2.HttpException
 import java.net.ConnectException
+import java.net.UnknownHostException
 
 class ExceptionHandler {
     companion object {
-        fun handle(e: Throwable): ResponseException {
-            val responseException: ResponseException
+        fun handle(e: Throwable): ApiException {
+            val responseException: ApiException
             if (e is ApiException) {
-                responseException = ResponseException(e, Integer.valueOf(e.errorCode), e.message)
+                responseException = e
             } else if (e is HttpException) {
                 responseException = when (e.code()) {
-                    UNAUTHORIZED, FORBIDDEN, NOT_FOUND, REQUEST_TIMEOUT, GATEWAY_TIMEOUT, INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE -> ResponseException(e, "$HTTP_ERROR:${e.code()}", "网络连接错误")
-                    else -> ResponseException(e, "$HTTP_ERROR:${e.code()}", "网络连接错误（${e.code()}）")
+                    UNAUTHORIZED, FORBIDDEN, NOT_FOUND, REQUEST_TIMEOUT, GATEWAY_TIMEOUT, INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE -> ApiException(
+                        e.code(),
+                        "网络连接错误（${e.code()}）"
+                    )
+                    else -> ApiException(HTTP_ERROR, "网络连接错误（${e.code()}）")
                 }
             } else if (e is JsonParseException
-                    || e is JSONException
-                    || e is ParseException) {
-                responseException = ResponseException(e, PARSE_ERROR, "解析错误")
-            } else if (e is ConnectException) {
-                responseException = ResponseException(e, NET_ERROR, "连接失败")
+                || e is JSONException
+                || e is ParseException
+            ) {
+                responseException = ApiException(PARSE_ERROR, "解析错误")
+            } else if (e is ConnectException || e is UnknownHostException) {
+                responseException = ApiException(NET_ERROR, "连接失败")
             } else if (e is ConnectTimeoutException || e is java.net.SocketTimeoutException) {
-                responseException = ResponseException(e, TIMEOUT_ERROR, "网络连接超时")
+                responseException = ApiException(TIMEOUT_ERROR, "网络连接超时")
             } else if (e is javax.net.ssl.SSLHandshakeException) {
-                responseException = ResponseException(e, SSL_ERROR, "证书验证失败")
+                responseException = ApiException(SSL_ERROR, "证书验证失败")
             } else {
-                responseException = ResponseException(e, UNKNOWN_ERROR, "未知错误")
+                responseException = ApiException(UNKNOWN_ERROR, e.message ?: "未知错误")
             }
             return responseException
         }

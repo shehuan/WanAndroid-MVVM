@@ -11,7 +11,7 @@ import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.bean.treeDetail.DatasItem
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.floating_button_layout.*
 import kotlinx.android.synthetic.main.fragment_tree_detail.*

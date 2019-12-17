@@ -1,12 +1,11 @@
 package com.shehuan.wanandroid.base.activity
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.shehuan.wanandroid.base.BaseRepository
+import com.shehuan.wanandroid.base.net.BaseRepository
 import com.shehuan.wanandroid.base.BaseViewModel
 import java.lang.reflect.ParameterizedType
 

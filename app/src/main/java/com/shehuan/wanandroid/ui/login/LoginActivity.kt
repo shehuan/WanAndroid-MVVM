@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.ui.register.RegisterActivity
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.widget.WrapTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
 

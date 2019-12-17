@@ -78,4 +78,4 @@
 
 # 不混淆数据bean
 -keep class com.shehuan.wanandroid.bean.** { *; }
--keep class com.shehuan.wanandroid.base.BaseResponse { *; }
+-keep class com.shehuan.wanandroid.base.net.BaseResponse { *; }

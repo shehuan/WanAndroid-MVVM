@@ -14,7 +14,7 @@ import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.bean.chapter.DatasItem
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_chapter_detail.*
 import kotlinx.android.synthetic.main.floating_button_layout.*

@@ -6,7 +6,7 @@ import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.article.DatasItem
 import com.shehuan.wanandroid.databinding.RvItemCollectionLayoutBinding
-import com.shehuan.wanandroid.utils.initDataBinding
+import com.shehuan.wanandroid.base.initDataBinding
 
 class CollectionListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoadMore: Boolean) :
     CommonBaseAdapter<DatasItem>(context, data, isOpenLoadMore) {
@@ -15,7 +15,10 @@ class CollectionListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoa
     }
 
     override fun convert(viewHolder: ViewHolder, data: DatasItem, position: Int) {
-        val binding = initDataBinding<RvItemCollectionLayoutBinding>(viewHolder.convertView)
+        val binding =
+            initDataBinding<RvItemCollectionLayoutBinding>(
+                viewHolder.convertView
+            )
         binding.data = data
     }
 }

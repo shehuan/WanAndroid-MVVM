@@ -9,7 +9,7 @@ import com.shehuan.wanandroid.adapter.CollectionListAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import com.shehuan.wanandroid.widget.WrapLinearLayoutManager
 import kotlinx.android.synthetic.main.activity_my_collection.*

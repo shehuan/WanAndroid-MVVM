@@ -6,7 +6,7 @@ import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.tree.TreeBean
 import com.shehuan.wanandroid.databinding.RvItemTreeLayoutBinding
-import com.shehuan.wanandroid.utils.initDataBinding
+import com.shehuan.wanandroid.base.initDataBinding
 
 class TreeListAdapter(context: Context?, data: List<TreeBean>?, isOpenLoadMore: Boolean) :
         CommonBaseAdapter<TreeBean>(context, data, isOpenLoadMore) {
@@ -15,7 +15,10 @@ class TreeListAdapter(context: Context?, data: List<TreeBean>?, isOpenLoadMore: 
     }
 
     override fun convert(viewHolder: ViewHolder, data: TreeBean, position: Int) {
-        val binding = initDataBinding<RvItemTreeLayoutBinding>(viewHolder.convertView)
+        val binding =
+            initDataBinding<RvItemTreeLayoutBinding>(
+                viewHolder.convertView
+            )
         binding.data = data
     }
 }

@@ -5,7 +5,7 @@ import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.addCommonView
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import kotlinx.android.synthetic.main.fragment_hot_website.*
 
 

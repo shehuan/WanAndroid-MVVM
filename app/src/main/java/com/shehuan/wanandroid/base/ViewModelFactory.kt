@@ -1,12 +1,11 @@
-package com.shehuan.wanandroid.utils
+package com.shehuan.wanandroid.base
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.shehuan.wanandroid.base.BaseRepository
-import com.shehuan.wanandroid.base.BaseViewModel
+import com.shehuan.wanandroid.base.net.BaseRepository
 
 /**
  * Author: shehuan

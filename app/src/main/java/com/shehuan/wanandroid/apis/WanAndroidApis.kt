@@ -1,6 +1,6 @@
 package com.shehuan.wanandroid.apis
 
-import com.shehuan.wanandroid.base.BaseResponse
+import com.shehuan.wanandroid.base.net.BaseResponse
 import com.shehuan.wanandroid.bean.*
 import com.shehuan.wanandroid.bean.article.ArticleBean
 import com.shehuan.wanandroid.bean.navi.NaviBean
@@ -8,7 +8,6 @@ import com.shehuan.wanandroid.bean.project.ProjectBean
 import com.shehuan.wanandroid.bean.chapter.ChapterArticleBean
 import com.shehuan.wanandroid.bean.tree.TreeBean
 import com.shehuan.wanandroid.bean.treeDetail.TreeDetailBean
-import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 

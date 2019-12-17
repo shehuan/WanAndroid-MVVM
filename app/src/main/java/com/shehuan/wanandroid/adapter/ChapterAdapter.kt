@@ -6,7 +6,7 @@ import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.ChapterBean
 import com.shehuan.wanandroid.databinding.RvItemChapterLayoutBinding
-import com.shehuan.wanandroid.utils.initDataBinding
+import com.shehuan.wanandroid.base.initDataBinding
 
 class ChapterAdapter(context: Context?, data: List<ChapterBean>?, isOpenLoadMore: Boolean) :
     CommonBaseAdapter<ChapterBean>(context, data, isOpenLoadMore) {
@@ -25,7 +25,10 @@ class ChapterAdapter(context: Context?, data: List<ChapterBean>?, isOpenLoadMore
     }
 
     override fun convert(viewHolder: ViewHolder, data: ChapterBean, position: Int) {
-        val binding = initDataBinding<RvItemChapterLayoutBinding>(viewHolder.convertView)
+        val binding =
+            initDataBinding<RvItemChapterLayoutBinding>(
+                viewHolder.convertView
+            )
         binding.data = data
         binding.color = mContext.resources.getColor(colors[position % 6])
     }

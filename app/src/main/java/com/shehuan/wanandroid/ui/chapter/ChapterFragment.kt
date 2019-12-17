@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ChapterAdapter
 import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.chapter.chapterDetail.ChapterDetailActivity
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import kotlinx.android.synthetic.main.fragment_chapter.*
 
 class ChapterFragment : BaseFragment() {

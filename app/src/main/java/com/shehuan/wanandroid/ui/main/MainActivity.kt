@@ -20,7 +20,7 @@ import com.shehuan.wanandroid.ui.project.ProjectFragment
 import com.shehuan.wanandroid.ui.query.QueryActivity
 import com.shehuan.wanandroid.ui.tree.TreeFragment
 import com.shehuan.wanandroid.utils.ToastUtil
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.utils.sp.SpUtil
 import com.shehuan.wanandroid.widget.BottomTabLayout
 import com.shehuan.wanandroid.widget.LogoutDialog

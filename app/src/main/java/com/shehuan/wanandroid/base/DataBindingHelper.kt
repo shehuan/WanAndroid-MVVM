@@ -1,4 +1,4 @@
-package com.shehuan.wanandroid.utils
+package com.shehuan.wanandroid.base
 
 import android.app.Activity
 import android.view.View

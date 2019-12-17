@@ -6,7 +6,7 @@ import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.project.DatasItem
 import com.shehuan.wanandroid.databinding.RvItemProjectLayoutBinding
-import com.shehuan.wanandroid.utils.initDataBinding
+import com.shehuan.wanandroid.base.initDataBinding
 
 class ProjectListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoadMore: Boolean) :
     CommonBaseAdapter<DatasItem>(context, data, isOpenLoadMore) {
@@ -15,7 +15,10 @@ class ProjectListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoadMo
     }
 
     override fun convert(viewHolder: ViewHolder, data: DatasItem, position: Int) {
-        val binding = initDataBinding<RvItemProjectLayoutBinding>(viewHolder.convertView)
+        val binding =
+            initDataBinding<RvItemProjectLayoutBinding>(
+                viewHolder.convertView
+            )
         binding.data = data
     }
 }

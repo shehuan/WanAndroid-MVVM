@@ -1,4 +1,4 @@
-package com.shehuan.wanandroid.base
+package com.shehuan.wanandroid.base.net
 
 import com.shehuan.wanandroid.base.net.exception.ApiException
 import retrofit2.Call

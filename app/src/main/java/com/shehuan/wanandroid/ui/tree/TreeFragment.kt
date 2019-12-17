@@ -7,7 +7,7 @@ import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.TreeListAdapter
 import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.tree.treeDetail.TreeDetailActivity
-import com.shehuan.wanandroid.utils.initViewModel
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_tree.*
 

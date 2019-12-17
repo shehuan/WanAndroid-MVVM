@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.QueryResultAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
+import com.shehuan.wanandroid.base.initViewModel
 import com.shehuan.wanandroid.bean.article.DatasItem
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.*

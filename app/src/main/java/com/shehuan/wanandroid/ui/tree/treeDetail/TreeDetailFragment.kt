@@ -22,7 +22,7 @@ class TreeDetailFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, TreeDetailViewModel::class.java, TreeDetailRepository::class.java
+            this, TreeDetailViewModel::class, TreeDetailRepository::class
         )
     }
 
@@ -72,16 +72,22 @@ class TreeDetailFragment : BaseFragment() {
             }
         })
 
-        viewModel.collectSuccess.observe(this, Observer {
-            collectDataItem.collect = true
-            treeDetailListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.collect_success)
+        viewModel.collectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = true
+                treeDetailListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.collect_success)
+            }
         })
 
-        viewModel.uncollectSuccess.observe(this, Observer {
-            collectDataItem.collect = false
-            treeDetailListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.uncollectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = false
+                treeDetailListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
     }
 
@@ -102,6 +108,7 @@ class TreeDetailFragment : BaseFragment() {
             setOnItemChildClickListener(R.id.treeArticleCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
+                showLoading()
                 if (!data.collect) {
                     viewModel.collectArticle(data.id)
                 } else {

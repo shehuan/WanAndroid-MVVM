@@ -18,7 +18,7 @@ class MyCollectionActivity : BaseActivity() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, MyCollectionViewModel::class.java, MyCollectionRepository::class.java
+            this, MyCollectionViewModel::class, MyCollectionRepository::class
         )
     }
 
@@ -43,9 +43,12 @@ class MyCollectionActivity : BaseActivity() {
     }
 
     override fun initData() {
-        viewModel.cancelSuccess.observe(this, Observer {
-            collectionListAdapter.remove(collectPosition)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.cancelSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectionListAdapter.remove(collectPosition)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
 
         viewModel.collectionList.observe(this, Observer {
@@ -83,6 +86,7 @@ class MyCollectionActivity : BaseActivity() {
             }
             setOnItemChildClickListener(R.id.articleCollectIv) { _, data, position ->
                 collectPosition = position
+                showLoading()
                 viewModel.cancelCollection(data.id, data.originId)
 
             }

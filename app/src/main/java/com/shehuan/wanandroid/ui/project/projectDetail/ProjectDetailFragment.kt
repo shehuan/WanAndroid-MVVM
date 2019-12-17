@@ -22,7 +22,7 @@ class ProjectDetailFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, ProjectDetailViewModel::class.java, ProjectDetailRepository::class.java
+            this, ProjectDetailViewModel::class, ProjectDetailRepository::class
         )
     }
 
@@ -51,16 +51,22 @@ class ProjectDetailFragment : BaseFragment() {
             cid = it.getInt(CID)
         }
 
-        viewModel.collectSuccess.observe(this, Observer {
-            collectDataItem.collect = true
-            projectListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.collect_success)
+        viewModel.collectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = true
+                projectListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.collect_success)
+            }
         })
 
-        viewModel.uncollectSuccess.observe(this, Observer {
-            collectDataItem.collect = false
-            projectListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.uncollectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = false
+                projectListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
 
         viewModel.newProjectList.observe(this, Observer {
@@ -105,6 +111,7 @@ class ProjectDetailFragment : BaseFragment() {
             setOnItemChildClickListener(R.id.projectCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
+                showLoading()
                 if (!data.collect) {
                     viewModel.collectArticle(data.id)
                 } else {

@@ -22,7 +22,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
             repository.collectArticle(id)
             collectSuccess.value = true
         }, {
-
+            collectSuccess.value = false
         })
     }
 
@@ -31,7 +31,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
             repository.uncollectArticle(id)
             uncollectSuccess.value = true
         }, {
-
+            uncollectSuccess.value = false
         })
     }
 

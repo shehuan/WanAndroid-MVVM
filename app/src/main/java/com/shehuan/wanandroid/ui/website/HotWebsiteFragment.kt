@@ -13,7 +13,7 @@ class HotWebsiteFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, HotWebsiteViewModel::class.java, HotWebsiteRepository::class.java
+            this, HotWebsiteViewModel::class, HotWebsiteRepository::class
         )
     }
 

@@ -16,7 +16,7 @@ class MyCollectionViewModel(private val repository: MyCollectionRepository) : Ba
             repository.cancelCollection(id, originId)
             cancelSuccess.value = true
         }, {
-
+            cancelSuccess.value = false
         })
     }
 

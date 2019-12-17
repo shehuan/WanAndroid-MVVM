@@ -21,7 +21,7 @@ class QueryViewModel(private val repository: QueryRepository) : BaseViewModel() 
             repository.collectArticle(id)
             collectSuccess.value = true
         }, {
-
+            collectSuccess.value = false
         })
     }
 
@@ -30,7 +30,7 @@ class QueryViewModel(private val repository: QueryRepository) : BaseViewModel() 
             repository.uncollectArticle(id)
             uncollectSuccess.value = true
         }, {
-
+            uncollectSuccess.value = false
         })
     }
 

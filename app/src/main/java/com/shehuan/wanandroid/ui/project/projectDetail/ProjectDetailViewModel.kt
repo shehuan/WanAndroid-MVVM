@@ -22,7 +22,7 @@ class ProjectDetailViewModel(private val repository: ProjectDetailRepository) : 
             repository.collectArticle(id)
             collectSuccess.value = true
         }, {
-
+            collectSuccess.value = false
         })
     }
 
@@ -31,7 +31,7 @@ class ProjectDetailViewModel(private val repository: ProjectDetailRepository) : 
             repository.uncollectArticle(id)
             uncollectSuccess.value = true
         }, {
-
+            uncollectSuccess.value = false
         })
     }
 

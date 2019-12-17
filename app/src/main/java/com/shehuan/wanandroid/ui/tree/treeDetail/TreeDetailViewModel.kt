@@ -24,7 +24,7 @@ class TreeDetailViewModel(private val repository: TreeDetailRepository) : BaseVi
             repository.collectArticle(id)
             collectSuccess.value = true
         }, {
-
+            collectSuccess.value = false
         })
     }
 
@@ -33,7 +33,7 @@ class TreeDetailViewModel(private val repository: TreeDetailRepository) : BaseVi
             repository.uncollectArticle(id)
             uncollectSuccess.value = true
         }, {
-
+            uncollectSuccess.value = false
         })
     }
 }

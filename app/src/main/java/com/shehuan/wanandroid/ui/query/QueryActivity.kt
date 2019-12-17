@@ -24,7 +24,7 @@ class QueryActivity : BaseActivity() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, QueryViewModel::class.java, QueryRepository::class.java
+            this, QueryViewModel::class, QueryRepository::class
         )
     }
 
@@ -56,16 +56,22 @@ class QueryActivity : BaseActivity() {
     }
 
     override fun initData() {
-        viewModel.collectSuccess.observe(this, Observer {
-            collectDataItem.collect = true
-            queryResultAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.collect_success)
+        viewModel.collectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = true
+                queryResultAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.collect_success)
+            }
         })
 
-        viewModel.uncollectSuccess.observe(this, Observer {
-            collectDataItem.collect = false
-            queryResultAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.uncollectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = false
+                queryResultAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
 
         viewModel.hotKeyList.observe(this, Observer {
@@ -83,6 +89,7 @@ class QueryActivity : BaseActivity() {
         })
 
         viewModel.queryList.observe(this, Observer {
+            hideLoading()
             if (queryResultRv.visibility == View.GONE) {
                 queryResultRv.visibility = View.VISIBLE
             }
@@ -111,6 +118,7 @@ class QueryActivity : BaseActivity() {
         })
 
         viewModel.queryListFail.observe(this, Observer {
+            hideLoading()
             queryResultAdapter.loadFailed()
         })
     }
@@ -155,6 +163,7 @@ class QueryActivity : BaseActivity() {
             setOnItemChildClickListener(R.id.articleCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
+                showLoading()
                 if (!data.collect) {
                     viewModel.collectArticle(data.id)
                 } else {
@@ -198,6 +207,7 @@ class QueryActivity : BaseActivity() {
                     if (!keyWord.isEmpty()) {
                         isInitQuery = true
                         pageNum = 0
+                        showLoading()
                         viewModel.query(pageNum, keyWord)
                     }
                     return true

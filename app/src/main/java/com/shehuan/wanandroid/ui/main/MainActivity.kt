@@ -6,6 +6,7 @@ import android.os.Handler
 import androidx.core.view.GravityCompat
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ViewPagerAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
@@ -34,7 +35,7 @@ class MainActivity : BaseActivity() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, MainViewModel::class.java, MainRepository::class.java
+            this, MainViewModel::class, MainRepository::class
         )
     }
 
@@ -59,6 +60,12 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
         EventBus.getDefault().register(this)
+        viewModel.logoutSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                usernameTv.text = getString(R.string.login)
+            }
+        })
     }
 
     override fun initView() {
@@ -151,6 +158,7 @@ class MainActivity : BaseActivity() {
 
         LogoutDialog.show(supportFragmentManager, object : LogoutDialog.OnLogoutListener {
             override fun logout() {
+                showLoading()
                 viewModel.logout()
             }
         })

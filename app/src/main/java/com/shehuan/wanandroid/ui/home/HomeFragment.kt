@@ -24,7 +24,7 @@ class HomeFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, HomeViewModel::class.java, HomeRepository::class.java
+            this, HomeViewModel::class, HomeRepository::class
         )
     }
 
@@ -51,16 +51,22 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initData() {
-        viewModel.collectSuccess.observe(this, Observer {
-            collectDataItem.collect = true
-            articleListAdapter.change(collectPosition + 1)
-            ToastUtil.show(mContext, R.string.collect_success)
+        viewModel.collectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = true
+                articleListAdapter.change(collectPosition + 1)
+                ToastUtil.show(mContext, R.string.collect_success)
+            }
         })
 
-        viewModel.uncollectSuccess.observe(this, Observer {
-            collectDataItem.collect = false
-            articleListAdapter.change(collectPosition + 1)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.uncollectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = false
+                articleListAdapter.change(collectPosition + 1)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
 
         viewModel.bannerList.observe(this, Observer {
@@ -133,6 +139,7 @@ class HomeFragment : BaseFragment() {
             setOnItemChildClickListener(R.id.articleCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
+                showLoading()
                 if (!data.collect) {
                     viewModel.collectArticle(data.id)
                 } else {

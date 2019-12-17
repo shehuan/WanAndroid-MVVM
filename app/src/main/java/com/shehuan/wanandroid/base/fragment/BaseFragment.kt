@@ -12,6 +12,7 @@ import com.shehuan.statusview.StatusView
 import com.shehuan.statusview.StatusViewBuilder
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
+import com.shehuan.wanandroid.widget.LoadingDialog
 
 abstract class BaseFragment : Fragment() {
     protected val TAG: String = this.javaClass.simpleName
@@ -193,6 +194,21 @@ abstract class BaseFragment : Fragment() {
                     .setOnErrorRetryClickListener(errorRetry)
                     .build()
             )
+        }
+    }
+
+    private var loadingDialog: LoadingDialog? = null
+
+    protected fun showLoading() {
+        if (loadingDialog == null || loadingDialog?.dialog == null) {
+            loadingDialog = LoadingDialog.newInstance()
+            loadingDialog!!.show(fragmentManager)
+        }
+    }
+
+    protected fun hideLoading() {
+        if (loadingDialog != null) {
+            loadingDialog!!.dismiss()
         }
     }
 }

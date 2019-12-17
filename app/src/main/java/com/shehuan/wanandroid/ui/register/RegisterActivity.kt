@@ -12,7 +12,7 @@ class RegisterActivity : BaseActivity() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, RegisterViewModel::class.java, RegisterRepository::class.java
+            this, RegisterViewModel::class, RegisterRepository::class
         )
     }
 
@@ -32,8 +32,11 @@ class RegisterActivity : BaseActivity() {
     }
 
     override fun initData() {
-        viewModel.registerBean.observe(this, Observer {
-            finish()
+        viewModel.registerBean.observe(this, Observer { registerBean ->
+            hideLoading()
+            if (registerBean != null) {
+                finish()
+            }
         })
     }
 
@@ -68,6 +71,7 @@ class RegisterActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            showLoading()
             viewModel.register(
                 registerUsernameET.text.toString(),
                 registerPasswordET.text.toString(),

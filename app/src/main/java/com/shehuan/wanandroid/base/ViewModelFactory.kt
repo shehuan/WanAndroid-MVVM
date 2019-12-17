@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.shehuan.wanandroid.base.net.BaseRepository
+import kotlin.reflect.KClass
 
 /**
  * Author: shehuan
@@ -19,14 +20,14 @@ import com.shehuan.wanandroid.base.net.BaseRepository
 @Suppress("UNCHECKED_CAST")
 fun <BVM : BaseViewModel> initViewModel(
     activity: FragmentActivity,
-    vmClass: Class<BVM>,
-    rClass: Class<out BaseRepository>
+    vmClass: KClass<BVM>,
+    rClass: KClass<out BaseRepository>
 ) =
     ViewModelProviders.of(activity, object : ViewModelProvider.NewInstanceFactory() {
         override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
-            return vmClass.getConstructor(rClass).newInstance(rClass.newInstance()) as VM
+            return vmClass.java.getConstructor(rClass.java).newInstance(rClass.java.newInstance()) as VM
         }
-    }).get(vmClass)
+    }).get(vmClass.java)
 
 
 /**
@@ -35,11 +36,11 @@ fun <BVM : BaseViewModel> initViewModel(
 @Suppress("UNCHECKED_CAST")
 fun <BVM : BaseViewModel> initViewModel(
     fragment: Fragment,
-    vmClass: Class<BVM>,
-    rClass: Class<out BaseRepository>
+    vmClass: KClass<BVM>,
+    rClass: KClass<out BaseRepository>
 ) =
     ViewModelProviders.of(fragment, object : ViewModelProvider.NewInstanceFactory() {
         override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
-            return vmClass.getConstructor(rClass).newInstance(rClass.newInstance()) as VM
+            return vmClass.java.getConstructor(rClass.java).newInstance(rClass.java.newInstance()) as VM
         }
-    }).get(vmClass)
+    }).get(vmClass.java)

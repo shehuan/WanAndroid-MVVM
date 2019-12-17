@@ -15,7 +15,7 @@ class ProjectFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, ProjectViewModel::class.java, ProjectRepository::class.java
+            this, ProjectViewModel::class, ProjectRepository::class
         )
     }
 

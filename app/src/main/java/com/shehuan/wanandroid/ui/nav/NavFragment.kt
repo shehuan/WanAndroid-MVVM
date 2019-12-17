@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_navi.*
 class NavFragment : BaseFragment() {
     private val viewModel by lazy {
         initViewModel(
-            this, NavViewModel::class.java, NavRepository::class.java
+            this, NavViewModel::class, NavRepository::class
         )
     }
 

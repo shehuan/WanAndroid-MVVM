@@ -15,7 +15,7 @@ class TreeFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, TreeViewModel::class.java, TreeRepository::class.java
+            this, TreeViewModel::class, TreeRepository::class
         )
     }
 

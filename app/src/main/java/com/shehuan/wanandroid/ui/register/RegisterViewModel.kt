@@ -16,7 +16,7 @@ class RegisterViewModel(private val repository: RegisterRepository) : BaseViewMo
             SpUtil.setUsername(registerBean.value!!.username)
             EventBus.getDefault().post(AccountEvent())
         }, {
-
+            registerBean.value = null
         })
     }
 }

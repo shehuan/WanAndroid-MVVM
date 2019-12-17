@@ -23,7 +23,7 @@ class ChapterDetailActivity : BaseActivity() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, ChapterDetailViewModel::class.java, ChapterDetailRepository::class.java
+            this, ChapterDetailViewModel::class, ChapterDetailRepository::class
         )
     }
 
@@ -69,16 +69,22 @@ class ChapterDetailActivity : BaseActivity() {
             chapterId = it.getIntExtra("chapterId", 0)
         }
 
-        viewModel.collectSuccess.observe(this, Observer {
-            collectDataItem.collect = true
-            chapterDetailListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.collect_success)
+        viewModel.collectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = true
+                chapterDetailListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.collect_success)
+            }
         })
 
-        viewModel.uncollectSuccess.observe(this, Observer {
-            collectDataItem.collect = false
-            chapterDetailListAdapter.change(collectPosition)
-            ToastUtil.show(mContext, R.string.uncollect_success)
+        viewModel.uncollectSuccess.observe(this, Observer { success ->
+            hideLoading()
+            if (success) {
+                collectDataItem.collect = false
+                chapterDetailListAdapter.change(collectPosition)
+                ToastUtil.show(mContext, R.string.uncollect_success)
+            }
         })
 
         viewModel.articleBean.observe(this, Observer {
@@ -103,6 +109,7 @@ class ChapterDetailActivity : BaseActivity() {
         })
 
         viewModel.queryArticleBean.observe(this, Observer {
+            hideLoading()
             if (queryChapterRv.visibility == View.GONE) {
                 queryChapterRv.visibility = View.VISIBLE
             }
@@ -131,6 +138,7 @@ class ChapterDetailActivity : BaseActivity() {
         })
 
         viewModel.queryArticleBeanFail.observe(this, Observer {
+            hideLoading()
             queryResultAdapter.loadEnd()
         })
     }
@@ -166,6 +174,7 @@ class ChapterDetailActivity : BaseActivity() {
             setOnItemChildClickListener(R.id.chapterArticleCollectIv) { _, data, position ->
                 collectDataItem = data
                 collectPosition = position
+                showLoading()
                 if (!data.collect) {
                     viewModel.collectArticle(data.id)
                 } else {
@@ -245,6 +254,7 @@ class ChapterDetailActivity : BaseActivity() {
                     if (!keyWord.isEmpty()) {
                         queryPageNum = 0
                         isInitQuery = true
+                        showLoading()
                         viewModel.queryChapterArticle(chapterId, queryPageNum, keyWord)
                     }
                     return true

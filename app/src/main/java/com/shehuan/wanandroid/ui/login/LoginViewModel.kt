@@ -16,7 +16,7 @@ class LoginViewModel(private val repository: LoginRepository) : BaseViewModel() 
             SpUtil.setUsername(loginBean.value!!.username)
             EventBus.getDefault().post(AccountEvent())
         }, {
-
+            loginBean.value = null
         })
     }
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.shehuan.statusview.StatusView
 import com.shehuan.statusview.StatusViewBuilder
 import com.shehuan.wanandroid.R
+import com.shehuan.wanandroid.widget.LoadingDialog
 import kotlinx.android.synthetic.main.toolbar_layout.*
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -58,6 +59,21 @@ abstract class BaseActivity : AppCompatActivity() {
                 finish()
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
+    private var loadingDialog: LoadingDialog? = null
+
+    protected fun showLoading() {
+        if (loadingDialog == null || loadingDialog?.dialog == null) {
+            loadingDialog = LoadingDialog.newInstance()
+            loadingDialog!!.show(supportFragmentManager)
+        }
+    }
+
+    protected fun hideLoading() {
+        if (loadingDialog != null) {
+            loadingDialog!!.dismiss()
         }
     }
 }

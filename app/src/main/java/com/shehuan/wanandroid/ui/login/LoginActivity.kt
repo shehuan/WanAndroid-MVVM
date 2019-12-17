@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity() {
     private val viewModel by lazy {
         initViewModel(
-            this, LoginViewModel::class.java, LoginRepository::class.java
+            this, LoginViewModel::class, LoginRepository::class
         )
     }
 
@@ -33,8 +33,11 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initData() {
-        viewModel.loginBean.observe(this, Observer {
-            finish()
+        viewModel.loginBean.observe(this, Observer { loginBean ->
+            hideLoading()
+            if (loginBean != null) {
+                finish()
+            }
         })
     }
 
@@ -61,7 +64,7 @@ class LoginActivity : BaseActivity() {
                 loginPasswordTTL.error = getString(R.string.password_empty)
                 return@setOnClickListener
             }
-
+            showLoading()
             viewModel.login(loginUsernameET.text.toString(), loginPasswordET.text.toString())
         }
     }

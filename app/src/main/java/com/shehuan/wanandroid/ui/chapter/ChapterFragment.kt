@@ -13,7 +13,7 @@ class ChapterFragment : BaseFragment() {
 
     private val viewModel by lazy {
         initViewModel(
-            this, ChapterViewModel::class.java, ChapterRepository::class.java
+            this, ChapterViewModel::class, ChapterRepository::class
         )
     }
 

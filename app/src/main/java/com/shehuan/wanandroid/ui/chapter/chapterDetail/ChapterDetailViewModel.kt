@@ -22,7 +22,7 @@ class ChapterDetailViewModel(private val repository: ChapterDetailRepository) : 
             repository.collectArticle(id)
             collectSuccess.value = true
         }, {
-
+            collectSuccess.value = false
         })
     }
 
@@ -31,7 +31,7 @@ class ChapterDetailViewModel(private val repository: ChapterDetailRepository) : 
             repository.uncollectArticle(id)
             uncollectSuccess.value = true
         }, {
-
+            uncollectSuccess.value = false
         })
     }
 

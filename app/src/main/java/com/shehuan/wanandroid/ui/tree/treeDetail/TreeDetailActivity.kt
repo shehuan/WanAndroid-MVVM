@@ -24,8 +24,8 @@ class TreeDetailActivity : BaseActivity() {
         }
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_tree_detail
+    override fun initContentView() {
+        setContentView(R.layout.activity_tree_detail)
     }
 
     override fun initData() {

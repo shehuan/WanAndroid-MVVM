@@ -1,12 +1,12 @@
 package com.shehuan.wanandroid.adapter
 
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.chapter.DatasItem
 import com.shehuan.wanandroid.databinding.RvItemChapterDetailLayoutBinding
+import com.shehuan.wanandroid.utils.initDataBinding
 
 class ChapterDetailListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoadMore: Boolean) :
     CommonBaseAdapter<DatasItem>(context, data, isOpenLoadMore) {
@@ -15,7 +15,7 @@ class ChapterDetailListAdapter(context: Context?, data: List<DatasItem>?, isOpen
     }
 
     override fun convert(viewHolder: ViewHolder, data: DatasItem, position: Int) {
-        val binding = DataBindingUtil.bind<RvItemChapterDetailLayoutBinding>(viewHolder.convertView)
-        binding?.data = data
+        val binding = initDataBinding<RvItemChapterDetailLayoutBinding>(viewHolder.convertView)
+        binding.data = data
     }
 }

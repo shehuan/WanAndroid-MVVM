@@ -2,7 +2,6 @@ package com.shehuan.wanandroid.base.activity
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.shehuan.statusview.StatusView
@@ -15,8 +14,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var mContext: BaseActivity
 
-    @LayoutRes
-    abstract fun initLayoutResID(): Int
+    abstract fun initContentView()
 
     abstract fun initData()
 
@@ -26,7 +24,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(initLayoutResID())
+        initContentView()
         mContext = this
 
         initData()

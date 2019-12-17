@@ -12,19 +12,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.QueryResultAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseActivity2
 import com.shehuan.wanandroid.bean.article.DatasItem
-import com.shehuan.wanandroid.databinding.ActivityQueryBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
+import com.shehuan.wanandroid.utils.*
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_query.*
-import com.shehuan.wanandroid.utils.QueryHistoryDbUtil
-import com.shehuan.wanandroid.utils.ToastUtil
-import com.shehuan.wanandroid.utils.addCommonView
-import com.shehuan.wanandroid.utils.childName
 
 
-class QueryActivity : BaseActivity2<ActivityQueryBinding, QueryViewModel, QueryRepository>() {
+class QueryActivity : BaseActivity() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, QueryViewModel::class.java, QueryRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private lateinit var keyWord: String
     private var isInitQuery: Boolean = false
@@ -48,8 +50,8 @@ class QueryActivity : BaseActivity2<ActivityQueryBinding, QueryViewModel, QueryR
         viewModel.getHotKey()
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_query
+    override fun initContentView() {
+        setContentView(R.layout.activity_query)
     }
 
     override fun initData() {

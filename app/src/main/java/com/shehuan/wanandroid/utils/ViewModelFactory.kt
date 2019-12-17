@@ -14,6 +14,9 @@ import com.shehuan.wanandroid.base.BaseViewModel
  * Description:
  */
 
+/**
+ * 在Activity中初始化viewModel
+ */
 @Suppress("UNCHECKED_CAST")
 fun <BVM : BaseViewModel> initViewModel(
     activity: FragmentActivity,
@@ -27,6 +30,9 @@ fun <BVM : BaseViewModel> initViewModel(
     }).get(vmClass)
 
 
+/**
+ * 在Fragment中初始化viewModel
+ */
 @Suppress("UNCHECKED_CAST")
 fun <BVM : BaseViewModel> initViewModel(
     fragment: Fragment,

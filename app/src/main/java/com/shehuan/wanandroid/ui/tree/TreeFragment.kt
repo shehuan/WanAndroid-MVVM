@@ -5,13 +5,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.TreeListAdapter
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
-import com.shehuan.wanandroid.databinding.FragmentTreeBinding
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.tree.treeDetail.TreeDetailActivity
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_tree.*
 
-class TreeFragment : BaseFragment2<FragmentTreeBinding, TreeViewModel, TreeRepository>() {
+class TreeFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, TreeViewModel::class.java, TreeRepository::class.java
+        )
+    }
+
     private lateinit var treeListAdapter: TreeListAdapter
 
     companion object {
@@ -38,8 +45,6 @@ class TreeFragment : BaseFragment2<FragmentTreeBinding, TreeViewModel, TreeRepos
     }
 
     override fun initView() {
-        binding.viewModel = viewModel
-
         treeListAdapter = TreeListAdapter(context, null, false)
         treeListAdapter.setOnItemClickListener { _, data, _ ->
                         TreeDetailActivity.start(mContext, data.name, data.children)

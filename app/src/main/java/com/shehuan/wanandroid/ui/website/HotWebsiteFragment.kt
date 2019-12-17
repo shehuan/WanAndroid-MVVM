@@ -2,15 +2,21 @@ package com.shehuan.wanandroid.ui.website
 
 import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
-import com.shehuan.wanandroid.databinding.FragmentHotWebsiteBinding
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.addCommonView
+import com.shehuan.wanandroid.utils.initViewModel
 import kotlinx.android.synthetic.main.fragment_hot_website.*
 
 
-class HotWebsiteFragment :
-    BaseFragment2<FragmentHotWebsiteBinding, HotWebsiteViewModel, HotWebsiteRepository>() {
+class HotWebsiteFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, HotWebsiteViewModel::class.java, HotWebsiteRepository::class.java
+        )
+    }
+
     companion object {
         fun newInstance() = HotWebsiteFragment()
     }

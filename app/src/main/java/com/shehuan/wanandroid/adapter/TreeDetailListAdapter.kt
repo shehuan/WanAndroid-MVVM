@@ -1,12 +1,12 @@
 package com.shehuan.wanandroid.adapter
 
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.treeDetail.DatasItem
 import com.shehuan.wanandroid.databinding.RvItemTreeDetailLayoutBinding
+import com.shehuan.wanandroid.utils.initDataBinding
 
 class TreeDetailListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoadMore: Boolean) :
         CommonBaseAdapter<DatasItem>(context, data, isOpenLoadMore) {
@@ -15,7 +15,7 @@ class TreeDetailListAdapter(context: Context?, data: List<DatasItem>?, isOpenLoa
     }
 
     override fun convert(viewHolder: ViewHolder, data: DatasItem, position: Int) {
-        val binding = DataBindingUtil.bind<RvItemTreeDetailLayoutBinding>(viewHolder.convertView)
-        binding?.data = data
+        val binding = initDataBinding<RvItemTreeDetailLayoutBinding>(viewHolder.convertView)
+        binding.data = data
     }
 }

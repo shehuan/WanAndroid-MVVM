@@ -12,8 +12,8 @@ class AboutActivity : BaseActivity() {
         }
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_about
+    override fun initContentView() {
+        setContentView(R.layout.activity_about)
     }
 
     override fun initData() {

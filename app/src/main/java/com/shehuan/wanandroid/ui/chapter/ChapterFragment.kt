@@ -4,13 +4,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ChapterAdapter
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
-import com.shehuan.wanandroid.databinding.FragmentChapterBinding
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.ui.chapter.chapterDetail.ChapterDetailActivity
+import com.shehuan.wanandroid.utils.initViewModel
 import kotlinx.android.synthetic.main.fragment_chapter.*
 
-class ChapterFragment :
-    BaseFragment2<FragmentChapterBinding, ChapterViewModel, ChapterRepository>() {
+class ChapterFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, ChapterViewModel::class.java, ChapterRepository::class.java
+        )
+    }
+
     private lateinit var chapterAdapter: ChapterAdapter
 
     companion object {

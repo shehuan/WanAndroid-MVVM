@@ -4,13 +4,18 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseActivity2
-import com.shehuan.wanandroid.databinding.ActivityRegisterBinding
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.WrapTextWatcher
 import kotlinx.android.synthetic.main.activity_register.*
 
-class RegisterActivity :
-    BaseActivity2<ActivityRegisterBinding, RegisterViewModel, RegisterRepository>() {
+class RegisterActivity : BaseActivity() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, RegisterViewModel::class.java, RegisterRepository::class.java
+        )
+    }
+
     companion object {
         fun start(context: BaseActivity) {
             val intent = Intent(context, RegisterActivity::class.java)
@@ -22,8 +27,8 @@ class RegisterActivity :
 
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_register
+    override fun initContentView() {
+        setContentView(R.layout.activity_register)
     }
 
     override fun initData() {

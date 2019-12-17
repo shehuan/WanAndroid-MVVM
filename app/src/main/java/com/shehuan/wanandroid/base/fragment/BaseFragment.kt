@@ -12,7 +12,6 @@ import com.shehuan.statusview.StatusView
 import com.shehuan.statusview.StatusViewBuilder
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseActivity2
 
 abstract class BaseFragment : Fragment() {
     protected val TAG: String = this.javaClass.simpleName
@@ -26,6 +25,10 @@ abstract class BaseFragment : Fragment() {
 
     @LayoutRes
     abstract fun initLayoutResID(): Int
+
+    protected fun initDataBinding(view: View) {
+
+    }
 
     abstract fun initData()
 
@@ -48,7 +51,9 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(initLayoutResID(), container, false)
+        val view = inflater.inflate(initLayoutResID(), container, false)
+        initDataBinding(view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

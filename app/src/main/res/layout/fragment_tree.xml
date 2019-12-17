@@ -1,24 +1,15 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<com.shehuan.statusview.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/treeRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shehuan.wanandroid.ui.tree.TreeFragment">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.shehuan.wanandroid.ui.tree.TreeViewModel" />
-    </data>
-
-    <com.shehuan.statusview.StatusView
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/treeRootLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/treeRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.shehuan.wanandroid.ui.tree.TreeFragment">
+        android:overScrollMode="never" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/treeRv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never" />
-
-    </com.shehuan.statusview.StatusView>
-</layout>
+</com.shehuan.statusview.StatusView>

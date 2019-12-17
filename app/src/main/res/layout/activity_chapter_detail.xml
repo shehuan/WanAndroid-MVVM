@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.chapter.chapterDetail.ChapterDetailActivity">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <include layout="@layout/toolbar_layout" />
+
+    <FrameLayout
+        android:id="@+id/contentFl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.chapter.chapterDetail.ChapterDetailActivity">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_layout" />
-
-        <FrameLayout
-            android:id="@+id/contentFl"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/chapterDetailRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/cFFFFFF"
-                    android:overScrollMode="never" />
-
-                <include layout="@layout/floating_button_layout" />
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/queryChapterRv"
+                android:id="@+id/chapterDetailRv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/cFFFFFF"
-                android:overScrollMode="never"
-                android:visibility="gone" />
-        </FrameLayout>
+                android:overScrollMode="never" />
 
-    </LinearLayout>
+            <include layout="@layout/floating_button_layout" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</layout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/queryChapterRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cFFFFFF"
+            android:overScrollMode="never"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

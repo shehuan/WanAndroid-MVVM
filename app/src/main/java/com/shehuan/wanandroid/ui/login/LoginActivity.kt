@@ -5,13 +5,18 @@ import android.graphics.Paint
 import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseActivity2
-import com.shehuan.wanandroid.databinding.ActivityLoginBinding
 import com.shehuan.wanandroid.ui.register.RegisterActivity
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.WrapTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity2<ActivityLoginBinding, LoginViewModel, LoginRepository>() {
+class LoginActivity : BaseActivity() {
+    private val viewModel by lazy {
+        initViewModel(
+            this, LoginViewModel::class.java, LoginRepository::class.java
+        )
+    }
+
     companion object {
         fun start(context: BaseActivity) {
             val intent = Intent(context, LoginActivity::class.java)
@@ -23,8 +28,8 @@ class LoginActivity : BaseActivity2<ActivityLoginBinding, LoginViewModel, LoginR
 
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_login
+    override fun initContentView() {
+        setContentView(R.layout.activity_login)
     }
 
     override fun initData() {

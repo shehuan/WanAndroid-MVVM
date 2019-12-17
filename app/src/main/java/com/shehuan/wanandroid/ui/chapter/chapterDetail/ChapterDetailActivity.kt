@@ -11,17 +11,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ChapterDetailListAdapter
 import com.shehuan.wanandroid.base.activity.BaseActivity
-import com.shehuan.wanandroid.base.activity.BaseActivity2
 import com.shehuan.wanandroid.bean.chapter.DatasItem
-import com.shehuan.wanandroid.databinding.ActivityChapterDetailBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_chapter_detail.*
 import kotlinx.android.synthetic.main.floating_button_layout.*
 
-class ChapterDetailActivity :
-    BaseActivity2<ActivityChapterDetailBinding, ChapterDetailViewModel, ChapterDetailRepository>() {
+class ChapterDetailActivity : BaseActivity() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, ChapterDetailViewModel::class.java, ChapterDetailRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private var chapterId: Int = 0
     private lateinit var title: String
@@ -54,8 +59,8 @@ class ChapterDetailActivity :
         viewModel.getChapterArticleList(chapterId, pageNum)
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_chapter_detail
+    override fun initContentView() {
+        setContentView(R.layout.activity_chapter_detail)
     }
 
     override fun initData() {

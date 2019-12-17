@@ -3,7 +3,6 @@ package com.shehuan.wanandroid.ui.chapter.chapterDetail
 import androidx.lifecycle.MutableLiveData
 import com.shehuan.wanandroid.base.BaseViewModel
 import com.shehuan.wanandroid.base.net.exception.ApiException
-import com.shehuan.wanandroid.bean.ChapterBean
 import com.shehuan.wanandroid.bean.chapter.ChapterArticleBean
 
 class ChapterDetailViewModel(private val repository: ChapterDetailRepository) : BaseViewModel() {

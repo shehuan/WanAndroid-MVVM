@@ -7,13 +7,18 @@ import com.google.android.material.tabs.TabLayout
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ViewPagerAdapter
 import com.shehuan.wanandroid.base.fragment.BaseFragment
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
-import com.shehuan.wanandroid.databinding.FragmentProjectBinding
 import com.shehuan.wanandroid.ui.project.projectDetail.ProjectDetailFragment
+import com.shehuan.wanandroid.utils.initViewModel
 import kotlinx.android.synthetic.main.fragment_project.*
 
-class ProjectFragment :
-    BaseFragment2<FragmentProjectBinding, ProjectViewModel, ProjectRepository>() {
+class ProjectFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, ProjectViewModel::class.java, ProjectRepository::class.java
+        )
+    }
+
     companion object {
         fun newInstance() = ProjectFragment()
     }

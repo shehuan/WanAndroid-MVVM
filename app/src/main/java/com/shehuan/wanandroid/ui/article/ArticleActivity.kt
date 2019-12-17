@@ -31,8 +31,8 @@ class ArticleActivity : BaseActivity() {
         }
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_article
+    override fun initContentView() {
+        setContentView(R.layout.activity_article)
     }
 
     override fun initData() {

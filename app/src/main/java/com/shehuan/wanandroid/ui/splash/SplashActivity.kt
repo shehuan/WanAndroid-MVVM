@@ -5,8 +5,8 @@ import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.ui.main.MainActivity
 
 class SplashActivity : BaseActivity() {
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_splash
+    override fun initContentView() {
+        setContentView(R.layout.activity_splash)
     }
 
     override fun initData() {

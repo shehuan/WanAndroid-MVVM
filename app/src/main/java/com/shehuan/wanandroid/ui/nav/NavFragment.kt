@@ -3,14 +3,19 @@ package com.shehuan.wanandroid.ui.nav
 import androidx.lifecycle.Observer
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.base.fragment.BaseFragment
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
 import com.shehuan.wanandroid.bean.navi.ArticlesItem
-import com.shehuan.wanandroid.databinding.FragmentNaviBinding
 import com.shehuan.wanandroid.ui.website.HotWebsiteFragment
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.VerticalTabLayout
 import kotlinx.android.synthetic.main.fragment_navi.*
 
-class NavFragment : BaseFragment2<FragmentNaviBinding, NavViewModel, NavRepository>() {
+class NavFragment : BaseFragment() {
+    private val viewModel by lazy {
+        initViewModel(
+            this, NavViewModel::class.java, NavRepository::class.java
+        )
+    }
+
     private val fragments: ArrayList<BaseFragment> = arrayListOf()
 
     companion object {

@@ -7,19 +7,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.TreeDetailListAdapter
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.bean.treeDetail.DatasItem
-import com.shehuan.wanandroid.databinding.FragmentTreeDetailBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.floating_button_layout.*
 import kotlinx.android.synthetic.main.fragment_tree_detail.*
 
 private const val CID = "cid"
 
-class TreeDetailFragment :
-    BaseFragment2<FragmentTreeDetailBinding, TreeDetailViewModel, TreeDetailRepository>() {
+class TreeDetailFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, TreeDetailViewModel::class.java, TreeDetailRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private lateinit var treeDetailListAdapter: TreeDetailListAdapter
     private lateinit var collectDataItem: DatasItem

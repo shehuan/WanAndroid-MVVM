@@ -6,16 +6,22 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.CollectionListAdapter
-import com.shehuan.wanandroid.base.activity.BaseActivity2
-import com.shehuan.wanandroid.databinding.ActivityMyCollectionBinding
+import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import com.shehuan.wanandroid.widget.WrapLinearLayoutManager
 import kotlinx.android.synthetic.main.activity_my_collection.*
 
-class MyCollectionActivity :
-    BaseActivity2<ActivityMyCollectionBinding, MyCollectionViewModel, MyCollectionRepository>() {
+class MyCollectionActivity : BaseActivity() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, MyCollectionViewModel::class.java, MyCollectionRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private lateinit var collectionListAdapter: CollectionListAdapter
     private var collectPosition: Int = 0
@@ -32,8 +38,8 @@ class MyCollectionActivity :
         viewModel.getCollectionList(pageNum)
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_my_collection
+    override fun initContentView() {
+        setContentView(R.layout.activity_my_collection)
     }
 
     override fun initData() {

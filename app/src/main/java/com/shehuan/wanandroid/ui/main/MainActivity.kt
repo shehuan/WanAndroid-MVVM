@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ViewPagerAdapter
-import com.shehuan.wanandroid.base.activity.BaseActivity2
+import com.shehuan.wanandroid.base.activity.BaseActivity
 import com.shehuan.wanandroid.bean.event.AccountEvent
-import com.shehuan.wanandroid.databinding.ActivityMainBinding
 import com.shehuan.wanandroid.ui.about.AboutActivity
 import com.shehuan.wanandroid.ui.home.HomeFragment
 import com.shehuan.wanandroid.ui.nav.NavFragment
@@ -21,6 +20,7 @@ import com.shehuan.wanandroid.ui.project.ProjectFragment
 import com.shehuan.wanandroid.ui.query.QueryActivity
 import com.shehuan.wanandroid.ui.tree.TreeFragment
 import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.utils.sp.SpUtil
 import com.shehuan.wanandroid.widget.BottomTabLayout
 import com.shehuan.wanandroid.widget.LogoutDialog
@@ -30,7 +30,13 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepository>() {
+class MainActivity : BaseActivity() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, MainViewModel::class.java, MainRepository::class.java
+        )
+    }
 
     private var isBackPressed: Boolean = false
 
@@ -47,8 +53,8 @@ class MainActivity : BaseActivity2<ActivityMainBinding, MainViewModel, MainRepos
 
     }
 
-    override fun initLayoutResID(): Int {
-        return R.layout.activity_main
+    override fun initContentView() {
+        setContentView(R.layout.activity_main)
     }
 
     override fun initData() {

@@ -19,7 +19,7 @@ abstract class BaseActivity2<VDB : ViewDataBinding, BVM : BaseViewModel, BR : Ba
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = DataBindingUtil.setContentView<VDB>(this, initLayoutResID())
+//        binding = DataBindingUtil.setContentView<VDB>(this, initLayoutResID())
 
         val arguments = (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
         val bvmClass: Class<BVM> = arguments[1] as Class<BVM>

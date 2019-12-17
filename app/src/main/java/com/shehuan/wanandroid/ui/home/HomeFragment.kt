@@ -9,18 +9,25 @@ import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.bean.article.DatasItem
-import com.shehuan.wanandroid.databinding.FragmentHomeBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
 import com.youth.banner.Banner
 import com.shehuan.wanandroid.utils.BannerImageLoader
+import com.shehuan.wanandroid.utils.initViewModel
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.floating_button_layout.*
 
 
-class HomeFragment : BaseFragment2<FragmentHomeBinding, HomeViewModel, HomeRepository>() {
+class HomeFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, HomeViewModel::class.java, HomeRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private lateinit var articleListAdapter: ArticleListAdapter
     private lateinit var collectDataItem: DatasItem

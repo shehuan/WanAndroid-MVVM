@@ -6,20 +6,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.adapter.ProjectListAdapter
-import com.shehuan.wanandroid.base.fragment.BaseFragment2
+import com.shehuan.wanandroid.base.fragment.BaseFragment
 import com.shehuan.wanandroid.bean.project.DatasItem
 import com.shehuan.wanandroid.bean.project.ProjectBean
-import com.shehuan.wanandroid.databinding.FragmentProjectDetailBinding
 import com.shehuan.wanandroid.ui.article.ArticleActivity
 import com.shehuan.wanandroid.utils.ToastUtil
+import com.shehuan.wanandroid.utils.initViewModel
 import com.shehuan.wanandroid.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.floating_button_layout.*
 import kotlinx.android.synthetic.main.fragment_project_detail.*
 
 private const val CID = "cid"
 
-class ProjectDetailFragment :
-    BaseFragment2<FragmentProjectDetailBinding, ProjectDetailViewModel, ProjectDetailRepository>() {
+class ProjectDetailFragment : BaseFragment() {
+
+    private val viewModel by lazy {
+        initViewModel(
+            this, ProjectDetailViewModel::class.java, ProjectDetailRepository::class.java
+        )
+    }
+
     private var pageNum: Int = 0
     private lateinit var projectListAdapter: ProjectListAdapter
     private lateinit var collectDataItem: DatasItem

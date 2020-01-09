@@ -1,10 +1,12 @@
 # WanAndroid-MVVM
 
+[微信小程序版本](https://github.com/SheHuan/WanAndroid-WXMP)
+
 ## 说明
 
-一个 MVVM 结构的玩 Android App，数据来源于鸿洋大神的[玩Android开放API](http://www.wanandroid.com/blog/show/2)。
+**一个 MVVM 结构的玩Android App，数据来源于鸿洋大神的[玩Android开放API](http://www.wanandroid.com/blog/show/2)。**
 
-基于 Kotlin 语言，主要用到了 Kotlin 的 Coroutines（协程），Jetpack 中的 ViewModel、LiveData、DataBinding 组件，Retrofit等。
+**基于 Kotlin 语言，主要用到了 Kotlin 的 Coroutines（协程），Jetpack 中的 ViewModel、LiveData、DataBinding 组件，Retrofit等。**
 
 扫码下载体验：
 

@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ProjectRepository : BaseRepository {
+class ProjectRepository : BaseRepository() {
     suspend fun getCategoryList() = withContext(Dispatchers.IO) {
         RetrofitManager.create(WanAndroidApis::class.java).projectCategory().await()
     }

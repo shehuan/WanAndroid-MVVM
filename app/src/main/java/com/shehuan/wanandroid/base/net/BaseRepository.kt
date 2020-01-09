@@ -8,7 +8,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-interface BaseRepository {
+open class BaseRepository {
     suspend fun <T> Call<BaseResponse<T>>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<BaseResponse<T>> {

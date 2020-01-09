@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainRepository : BaseRepository {
+class MainRepository : BaseRepository() {
     suspend fun logout(){
         withContext(Dispatchers.IO){
             RetrofitManager.create(WanAndroidApis::class.java).logout().await()

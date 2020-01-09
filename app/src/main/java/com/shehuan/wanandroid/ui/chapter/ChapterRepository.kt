@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ChapterRepository : BaseRepository {
+class ChapterRepository : BaseRepository() {
     suspend fun getChapterList() = withContext(Dispatchers.IO) {
         RetrofitManager.create(WanAndroidApis::class.java).chapter().await()
     }

@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ProjectDetailRepository : BaseRepository {
+class ProjectDetailRepository : BaseRepository() {
     suspend fun collectArticle(id: Int) = withContext(Dispatchers.IO) {
         RetrofitManager.create(WanAndroidApis::class.java).collectArticle(id).await()
     }

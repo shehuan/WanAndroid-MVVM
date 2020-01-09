@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class TreeDetailRepository : BaseRepository {
+class TreeDetailRepository : BaseRepository() {
     suspend fun getTreeDetail(pageNum: Int, cid: Int) = withContext(Dispatchers.IO) {
         RetrofitManager.create(WanAndroidApis::class.java).treeDetail(pageNum, cid).await()
     }

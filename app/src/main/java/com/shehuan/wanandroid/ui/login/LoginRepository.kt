@@ -6,7 +6,7 @@ import com.shehuan.wanandroid.base.net.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LoginRepository : BaseRepository {
+class LoginRepository : BaseRepository() {
     suspend fun login(username: String, password: String) = withContext(Dispatchers.IO) {
         val params = hashMapOf<String, String>()
         params["username"] = username

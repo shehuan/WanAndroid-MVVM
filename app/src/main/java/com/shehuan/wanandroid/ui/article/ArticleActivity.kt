@@ -11,8 +11,10 @@ import kotlinx.android.synthetic.main.activity_article.*
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
+import android.os.Build
 import android.text.Html
 import android.webkit.*
+import androidx.annotation.RequiresApi
 import com.shehuan.wanandroid.utils.ToastUtil
 
 
@@ -54,9 +56,12 @@ class ArticleActivity : BaseActivity() {
             displayZoomControls = false
         }
         articleWebView.webViewClient = object : WebViewClient() {
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                 super.onReceivedError(view, request, error)
-                statusView.showErrorView()
+                if(error?.description != "net::ERR_SSL_PROTOCOL_ERROR"){
+                    statusView.showErrorView()
+                }
             }
         }
         articleWebView.webChromeClient = object : WebChromeClient() {

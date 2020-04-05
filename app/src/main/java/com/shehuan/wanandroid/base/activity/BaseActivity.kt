@@ -1,5 +1,8 @@
 package com.shehuan.wanandroid.base.activity
 
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -27,6 +30,13 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initContentView()
         mContext = this
+
+        // 实现APP黑白化
+//        val paint = Paint()
+//        val cm = ColorMatrix();
+//        cm.setSaturation(0f)
+//        paint.colorFilter = ColorMatrixColorFilter(cm)
+//        window.decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
 
         initData()
         initView()

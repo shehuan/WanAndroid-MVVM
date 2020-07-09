@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shehuan.wanandroid.App
 import com.shehuan.wanandroid.base.net.exception.ApiException
-import com.shehuan.wanandroid.base.net.exception.ExceptionHandler
 import com.shehuan.wanandroid.utils.ToastUtil
 import kotlinx.coroutines.launch
 
@@ -13,10 +12,9 @@ open class BaseViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 request()
-            } catch (e: Throwable) {
-                val exception = ExceptionHandler.handle(e)
-                ToastUtil.show(App.getApp(), exception.errorMessage)
-                fail(exception)
+            } catch (e: ApiException) {
+                ToastUtil.show(App.getApp(), e.errorMessage)
+                fail(e)
             }
         }
 }

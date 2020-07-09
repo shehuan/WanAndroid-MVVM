@@ -1,5 +1,6 @@
 package com.shehuan.wanandroid.base.net
 
+import com.shehuan.wanandroid.apis.WanAndroidApis
 import com.shehuan.wanandroid.base.Const
 import com.shehuan.wanandroid.base.net.interceptor.AddCookiesInterceptor
 import com.shehuan.wanandroid.base.net.interceptor.SaveCookiesInterceptor
@@ -17,6 +18,15 @@ object RetrofitManager {
 
     private val retrofit: Retrofit by lazy {
         initRetrofit()
+    }
+
+    private lateinit var apis: WanAndroidApis
+
+    fun getApis(): WanAndroidApis {
+        if (!this::apis.isInitialized) {
+            apis = create(WanAndroidApis::class.java)
+        }
+        return apis
     }
 
     fun <S> create(service: Class<S>): S = retrofit.create(service)

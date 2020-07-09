@@ -1,17 +1,12 @@
 package com.shehuan.wanandroid.ui.collection
 
-import com.shehuan.wanandroid.apis.WanAndroidApis
 import com.shehuan.wanandroid.base.net.BaseRepository
 import com.shehuan.wanandroid.base.net.RetrofitManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class MyCollectionRepository : BaseRepository() {
-    suspend fun cancelCollection(id: Int, originId: Int) = withContext(Dispatchers.IO) {
-        RetrofitManager.create(WanAndroidApis::class.java).cancelMyCollection(id, originId).await()
-    }
+    suspend fun cancelCollection(id: Int, originId: Int) =
+        executeRequest { RetrofitManager.getApis().cancelMyCollection(id, originId) }
 
-    suspend fun getCollectionList(pageNum: Int) = withContext(Dispatchers.IO) {
-        RetrofitManager.create(WanAndroidApis::class.java).collectArticleList(pageNum).await()
-    }
+    suspend fun getCollectionList(pageNum: Int) =
+        executeRequest { RetrofitManager.getApis().collectArticleList(pageNum) }
 }

@@ -44,17 +44,16 @@ open class BaseRepository {
 //        }
 //    }
 
-    suspend fun <T> executeRequest(request: suspend () -> BaseResponse<T>) =
-        withContext(Dispatchers.IO) {
-            val response: BaseResponse<T>
-            try {
-                response = request()
-                if (response.errorCode != 0) {
-                    throw ApiException(response.errorCode, response.errorMsg)
-                }
-            } catch (e: Exception) {
-                throw ExceptionHandler.handle(e)
+    suspend fun <T> executeRequest(request: suspend () -> BaseResponse<T>): T {
+        val response: BaseResponse<T>
+        try {
+            response = request()
+            if (response.errorCode != 0) {
+                throw ApiException(response.errorCode, response.errorMsg)
             }
-            response.data
+        } catch (e: Exception) {
+            throw ExceptionHandler.handle(e)
         }
+        return response.data
+    }
 }

@@ -8,12 +8,12 @@ import com.google.android.flexbox.FlexboxLayout
 import com.shehuan.wanandroid.R
 import com.shehuan.wanandroid.bean.tree.ChildrenItem
 
-@BindingAdapter("bind:loadImage")
+@BindingAdapter("loadImage")
 fun ImageView.loadImage(url: String?) {
     if (url != null) ImageLoader.load(context, url, this)
 }
 
-@BindingAdapter("bind:initFlexbox")
+@BindingAdapter("initFlexbox")
 fun FlexboxLayout.initFlexbox(data: List<ChildrenItem>) {
     this.removeAllViews()
     for (tree in data) {

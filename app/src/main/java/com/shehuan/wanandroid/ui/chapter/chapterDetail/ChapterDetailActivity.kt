@@ -65,8 +65,8 @@ class ChapterDetailActivity : BaseActivity() {
 
     override fun initData() {
         intent?.let {
-            title = it.getStringExtra("title")
-            chapterId = it.getIntExtra("chapterId", 0)
+            title = it.getStringExtra("title")!!
+            chapterId = it.getIntExtra("chapterId", 0)!!
         }
 
         viewModel.collectSuccess.observe(this, Observer { success ->

@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class ChildrenItem(val visible: Int = 0,
-                        val name: String = "",
+                        val name: String? = "",
                         val userControlSetTop: Boolean = false,
                         val id: Int = 0,
                         val courseId: Int = 0,

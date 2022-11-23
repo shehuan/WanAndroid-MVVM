@@ -30,8 +30,8 @@ class TreeDetailActivity : BaseActivity() {
 
     override fun initData() {
         intent?.let {
-            title = it.getStringExtra("title")
-            secondaryTree = it.getParcelableArrayListExtra("secondaryTree")
+            title = it.getStringExtra("title")!!
+            secondaryTree = it.getParcelableArrayListExtra("secondaryTree")!!
         }
     }
 
@@ -41,7 +41,7 @@ class TreeDetailActivity : BaseActivity() {
         val titles = arrayListOf<String>()
         val fragments = arrayListOf<Fragment>()
         for (tree in secondaryTree) {
-            titles.add(tree.name)
+            titles.add(tree.name!!)
             fragments.add(TreeDetailFragment.newInstance(tree.id))
         }
 

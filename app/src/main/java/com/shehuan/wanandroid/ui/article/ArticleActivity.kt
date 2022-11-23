@@ -39,8 +39,8 @@ class ArticleActivity : BaseActivity() {
 
     override fun initData() {
         intent?.let {
-            title = it.getStringExtra("title")
-            link = it.getStringExtra("link")
+            title = it.getStringExtra("title")!!
+            link = it.getStringExtra("link")!!
         }
     }
 
@@ -91,8 +91,8 @@ class ArticleActivity : BaseActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menu_share -> share()
             R.id.menu_copy -> copy()
             R.id.menu_browser -> browser()
@@ -111,7 +111,7 @@ class ArticleActivity : BaseActivity() {
 
     private fun copy() {
         val manager = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        manager.primaryClip = ClipData.newPlainText(null, link)
+        manager.setPrimaryClip(ClipData.newPlainText(null, link))
         ToastUtil.show(mContext, R.string.copy_success)
     }
 

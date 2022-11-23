@@ -23,7 +23,7 @@ fun <BVM : BaseViewModel> initViewModel(
     vmClass: KClass<BVM>,
     rClass: KClass<out BaseRepository>
 ) =
-    ViewModelProviders.of(activity, object : ViewModelProvider.NewInstanceFactory() {
+    ViewModelProvider(activity, object : ViewModelProvider.NewInstanceFactory() {
         override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
             return vmClass.java.getConstructor(rClass.java).newInstance(rClass.java.newInstance()) as VM
         }
@@ -39,7 +39,7 @@ fun <BVM : BaseViewModel> initViewModel(
     vmClass: KClass<BVM>,
     rClass: KClass<out BaseRepository>
 ) =
-    ViewModelProviders.of(fragment, object : ViewModelProvider.NewInstanceFactory() {
+    ViewModelProvider(fragment, object : ViewModelProvider.NewInstanceFactory() {
         override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
             return vmClass.java.getConstructor(rClass.java).newInstance(rClass.java.newInstance()) as VM
         }
